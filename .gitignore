@@ -1,0 +1,63 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+### STS / IntelliJ / VS Code
+.idea/
+
+.settings/
+
+### Logs
+*.log
+logs/
+
+### OS Files
+.DS_Store
+Thumbs.db
+
+### Environment Variables
+.env
+.env.*
+
+### Application Properties (Database Password Hide)
+src/main/resources/application-local.properties
+src/main/resources/application-dev.properties
+
+### If using separate secrets file
+src/main/resources/secrets.properties
+
+### Generated Files
+bin/
+out/
+# Sensitive configuration
+src/main/resources/application.properties
+
