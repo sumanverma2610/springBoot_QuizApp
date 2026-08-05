@@ -16,8 +16,8 @@ public class QuestionService {
         this.questionRepository = questionRepository;
     }
 
-    // Add Question
-    public Question addQuestion(Question question) {
+    // Save Question
+    public Question saveQuestion(Question question) {
         return questionRepository.save(question);
     }
 
@@ -31,13 +31,13 @@ public class QuestionService {
         return questionRepository.findById(id);
     }
 
-    // Update Question
-    public Question updateQuestion(Question question) {
-        return questionRepository.save(question);
-    }
-
     // Delete Question
     public void deleteQuestion(Long id) {
         questionRepository.deleteById(id);
+    }
+
+    // Update Question
+    public Question updateQuestion(Question question) {
+        return questionRepository.save(question);
     }
 }

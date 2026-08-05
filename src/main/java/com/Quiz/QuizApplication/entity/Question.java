@@ -11,94 +11,107 @@ public class Question {
     private Long id;
 
     @Column(nullable = false)
-    private String question;
+    private String questionTitle;
 
     @Column(nullable = false)
-    private String option1;
+    private String optionA;
 
     @Column(nullable = false)
-    private String option2;
+    private String optionB;
 
     @Column(nullable = false)
-    private String option3;
+    private String optionC;
 
     @Column(nullable = false)
-    private String option4;
+    private String optionD;
 
     @Column(nullable = false)
     private String correctAnswer;
 
-    // Default Constructor
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     public Question() {
     }
 
-    // Parameterized Constructor
-    public Question(Long id, String question, String option1, String option2,
-                    String option3, String option4, String correctAnswer) {
+    public Question(Long id, String questionTitle, String optionA,
+                    String optionB, String optionC, String optionD,
+                    String correctAnswer, Category category) {
+
         this.id = id;
-        this.question = question;
-        this.option1 = option1;
-        this.option2 = option2;
-        this.option3 = option3;
-        this.option4 = option4;
+        this.questionTitle = questionTitle;
+        this.optionA = optionA;
+        this.optionB = optionB;
+        this.optionC = optionC;
+        this.optionD = optionD;
         this.correctAnswer = correctAnswer;
+        this.category = category;
     }
 
-    // Getters and Setters
+    // Getters & Setters
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getQuestionTitle() {
+        return questionTitle;
     }
 
-    public String getQuestion() {
-        return question;
+    public String getOptionA() {
+        return optionA;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public String getOptionB() {
+        return optionB;
     }
 
-    public String getOption1() {
-        return option1;
+    public String getOptionC() {
+        return optionC;
     }
 
-    public void setOption1(String option1) {
-        this.option1 = option1;
-    }
-
-    public String getOption2() {
-        return option2;
-    }
-
-    public void setOption2(String option2) {
-        this.option2 = option2;
-    }
-
-    public String getOption3() {
-        return option3;
-    }
-
-    public void setOption3(String option3) {
-        this.option3 = option3;
-    }
-
-    public String getOption4() {
-        return option4;
-    }
-
-    public void setOption4(String option4) {
-        this.option4 = option4;
+    public String getOptionD() {
+        return optionD;
     }
 
     public String getCorrectAnswer() {
         return correctAnswer;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setQuestionTitle(String questionTitle) {
+        this.questionTitle = questionTitle;
+    }
+
+    public void setOptionA(String optionA) {
+        this.optionA = optionA;
+    }
+
+    public void setOptionB(String optionB) {
+        this.optionB = optionB;
+    }
+
+    public void setOptionC(String optionC) {
+        this.optionC = optionC;
+    }
+
+    public void setOptionD(String optionD) {
+        this.optionD = optionD;
+    }
+
     public void setCorrectAnswer(String correctAnswer) {
         this.correctAnswer = correctAnswer;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
