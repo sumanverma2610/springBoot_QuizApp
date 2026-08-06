@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Quiz Result</title>
+
+  <style>
+    body{
+        text-align:center;
+        font-family:Arial;
+        margin-top:100px;
+    }
+
+    h1{
+        color:green;
+    }
+
+    a{
+        text-decoration:none;
+        font-size:20px;
+    }
+  </style>
+
+</head>
+<body>
+
+<h1>Quiz Completed</h1>
+
+<h2>
+  Your Score:
+  <span th:text="${score}"></span>
+  /
+  <span th:text="${total}"></span>
+</h2>
+
+<br>
+
+<a th:href="@{/quiz}">
+  Try Again
+</a>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Quiz</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            margin:40px;
+        }
+
+        .question{
+            border:1px solid #ccc;
+            padding:15px;
+            margin-bottom:20px;
+        }
+
+        h2{
+            color:blue;
+        }
+
+        button{
+            padding:10px 20px;
+            background:green;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+    </style>
+
+</head>
+<body>
+
+<h2>Quiz</h2>
+
+<form th:action="@{/submitQuiz}" method="post">
+
+    <div th:each="question : ${questions}" class="question">
+
+        <h3 th:text="${question.questionTitle}"></h3>
+
+        <input type="radio"
+               th:name="${'question_' + question.id}"
+               th:value="A">
+        <span th:text="${question.optionA}"></span>
+
+        <br><br>
+
+        <input type="radio"
+               th:name="${'question_' + question.id}"
+               th:value="B">
+        <span th:text="${question.optionB}"></span>
+
+        <br><br>
+
+        <input type="radio"
+               th:name="${'question_' + question.id}"
+               th:value="C">
+        <span th:text="${question.optionC}"></span>
+
+        <br><br>
+
+        <input type="radio"
+               th:name="${'question_' + question.id}"
+               th:value="D">
+        <span th:text="${question.optionD}"></span>
+
+    </div>
+
+    <button type="submit">
+        Submit Quiz
+    </button>
+
+</form>
+
+</body>
+</html>

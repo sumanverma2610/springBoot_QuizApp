@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>All Questions</title>
+
+  <style>
+
+    table{
+        border-collapse: collapse;
+        width:100%;
+    }
+
+    table,th,td{
+        border:1px solid black;
+        padding:10px;
+        text-align:center;
+    }
+
+    th{
+        background-color:lightgray;
+    }
+
+    a{
+        text-decoration:none;
+        margin:5px;
+    }
+
+  </style>
+
+</head>
+<body>
+
+<h2>All Questions</h2>
+
+<a th:href="@{/admin/questions/add}">
+  Add New Question
+</a>
+
+<br><br>
+
+<table>
+
+  <tr>
+
+    <th>ID</th>
+    <th>Question</th>
+    <th>Option A</th>
+    <th>Option B</th>
+    <th>Option C</th>
+    <th>Option D</th>
+    <th>Correct</th>
+    <th>Action</th>
+
+  </tr>
+
+  <tr th:each="question : ${questions}">
+
+    <td th:text="${question.id}"></td>
+
+    <td th:text="${question.questionTitle}"></td>
+
+    <td th:text="${question.optionA}"></td>
+
+    <td th:text="${question.optionB}"></td>
+
+    <td th:text="${question.optionC}"></td>
+
+    <td th:text="${question.optionD}"></td>
+
+    <td th:text="${question.correctAnswer}"></td>
+
+    <td>
+
+      <a th:href="@{'/admin/questions/delete/' + ${question.id}}">
+        Delete
+      </a>
+
+    </td>
+
+  </tr>
+
+</table>
+
+</body>
+</html>

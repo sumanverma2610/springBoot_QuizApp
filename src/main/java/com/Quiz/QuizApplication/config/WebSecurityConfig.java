@@ -26,7 +26,6 @@ public class WebSecurityConfig {
     public AuthenticationProvider authenticationProvider() {
 
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(customUserDetailsService);
-
         provider.setPasswordEncoder(passwordEncoder);
 
         return provider;
@@ -36,18 +35,50 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
+
+                // Disable CSRF for now (development)
+                .csrf(csrf -> csrf.disable())
+
+                // Authorization
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/register", "/login", "/css/**").permitAll()
-                        .anyRequest().authenticated()
+
+                        .requestMatchers(
+                                "/",
+                                "/login",
+                                "/register",
+                                "/css/**",
+                                "/js/**",
+                                "/images/**"
+                        ).permitAll()
+
+                        .requestMatchers("/admin/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers("/quiz", "/submitQuiz", "/result")
+                        .hasRole("STUDENT")
+
+                        .anyRequest()
+                        .authenticated()
                 )
 
+                // Login
                 .formLogin(form -> form
+
                         .loginPage("/login")
+                        .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/", true)
                         .permitAll()
+
                 )
 
-                .logout(Customizer.withDefaults());
+                // Logout
+                .logout(logout -> logout
+
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll()
+
+                );
 
         return http.build();
     }

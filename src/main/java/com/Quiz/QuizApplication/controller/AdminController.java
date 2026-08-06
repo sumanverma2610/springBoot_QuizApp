@@ -26,10 +26,22 @@ public class AdminController {
     }
 
     // Save Question
-    @PostMapping("/save-question")
+    @PostMapping("/save")
     public String saveQuestion(@ModelAttribute Question question) {
 
-        questionService.saveQuestion(question);
+        System.out.println("INSIDE SAVE API");
+        System.out.println("========== SAVE METHOD CALLED ==========");
+        System.out.println("Question: " + question.getQuestionTitle());
+        System.out.println("Option A: " + question.getOptionA());
+        System.out.println("Option B: " + question.getOptionB());
+        System.out.println("Correct Answer: " + question.getCorrectAnswer());
+
+        try {
+            questionService.saveQuestion(question);
+            System.out.println("Question saved successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return "redirect:/admin/questions";
     }
