@@ -1,25 +1,78 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <title>Quiz Application</title>
 </head>
+
 <body>
 
 <h1>Welcome to Quiz Application</h1>
 
+<!-- Not Logged In -->
 <div sec:authorize="isAnonymous()">
+
     <a th:href="@{/login}">Login</a>
+
     <br><br>
+
     <a th:href="@{/register}">Register</a>
+
 </div>
 
-<div sec:authorize="isAuthenticated()">
-    <h3>You are logged in.</h3>
+
+<!-- STUDENT -->
+<div sec:authorize="hasRole('STUDENT')">
+
+    <h3>Welcome Student!</h3>
 
     <a th:href="@{/quiz}">Start Quiz</a>
+
+    <br><br>
+
+    <a th:href="@{/my-results}">My Previous Results</a>
+
     <br><br>
 
     <a th:href="@{/logout}">Logout</a>
+
+</div>
+
+
+<!-- ADMIN -->
+<div sec:authorize="hasRole('ADMIN')">
+
+    <h3>Welcome Admin!</h3>
+
+    <a th:href="@{/admin/questions}">
+        Manage Questions
+    </a>
+
+    <br><br>
+
+    <a th:href="@{/admin/add-question}">
+        Add Question
+    </a>
+
+    <br><br>
+
+    <a th:href="@{/ai/test}">
+        AI Test
+    </a>
+
+    <br><br>
+
+    <a th:href="@{/ai/quiz}">
+        Generate AI Quiz
+    </a>
+
+    <br><br>
+
+    <a th:href="@{/logout}">
+        Logout
+    </a>
+
 </div>
 
 </body>

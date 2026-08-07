@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -16,8 +15,10 @@ public class WebSecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
     private final PasswordEncoder passwordEncoder;
 
-    public WebSecurityConfig(CustomUserDetailsService customUserDetailsService,
-                             PasswordEncoder passwordEncoder) {
+    public WebSecurityConfig(
+            CustomUserDetailsService customUserDetailsService,
+            PasswordEncoder passwordEncoder) {
+
         this.customUserDetailsService = customUserDetailsService;
         this.passwordEncoder = passwordEncoder;
     }
@@ -25,23 +26,24 @@ public class WebSecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
 
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(customUserDetailsService);
+        DaoAuthenticationProvider provider =
+                new DaoAuthenticationProvider(customUserDetailsService);
+
         provider.setPasswordEncoder(passwordEncoder);
 
         return provider;
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http)
+            throws Exception {
 
         http
-
-                // Disable CSRF for now (development)
                 .csrf(csrf -> csrf.disable())
 
-                // Authorization
                 .authorizeHttpRequests(auth -> auth
 
+                        // Public pages
                         .requestMatchers(
                                 "/",
                                 "/login",
@@ -51,33 +53,46 @@ public class WebSecurityConfig {
                                 "/images/**"
                         ).permitAll()
 
+                        // ADMIN ONLY
                         .requestMatchers("/admin/**")
                         .hasRole("ADMIN")
 
-                        .requestMatchers("/quiz", "/submitQuiz", "/result")
+                        // AI ONLY FOR ADMIN
+                        .requestMatchers("/ai/**")
+                        .hasRole("ADMIN")
+
+                        // STUDENT ONLY
+                        .requestMatchers(
+                                "/quiz",
+                                "/submitQuiz",
+                                "/result",
+                                "/my-results"
+                        )
                         .hasRole("STUDENT")
 
+                        // Everything else requires login
                         .anyRequest()
                         .authenticated()
                 )
 
-                // Login
                 .formLogin(form -> form
 
                         .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/", true)
-                        .permitAll()
 
+                        .loginProcessingUrl("/login")
+
+                        .defaultSuccessUrl("/", true)
+
+                        .permitAll()
                 )
 
-                // Logout
                 .logout(logout -> logout
 
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll()
 
+                        .logoutSuccessUrl("/login?logout")
+
+                        .permitAll()
                 );
 
         return http.build();
