@@ -2,41 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Quiz Result</title>
-
-  <style>
-    body{
-        text-align:center;
-        font-family:Arial;
-        margin-top:100px;
-    }
-
-    h1{
-        color:green;
-    }
-
-    a{
-        text-decoration:none;
-        font-size:20px;
-    }
-  </style>
-
 </head>
 <body>
 
-<h1>Quiz Completed</h1>
+<h2>Quiz Result</h2>
 
-<h2>
-  Your Score:
-  <span th:text="${score}"></span>
-  /
+<h3>Your Score:
+  <span th:text="${score}"></span> /
   <span th:text="${total}"></span>
-</h2>
+</h3>
 
-<br>
+<a th:href="@{/quiz}">Take Quiz Again</a>
+<br><br>
+<a th:href="@{/my-results}">History</a>
 
-<a th:href="@{/quiz}">
-  Try Again
-</a>
+<a th:href="@{/}">Home</a>
 
 </body>
 </html>

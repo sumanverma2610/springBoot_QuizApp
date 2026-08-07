@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Results</title>
+</head>
+<body>
+
+<h2>My Quiz Results</h2>
+
+<table border="1">
+
+    <tr>
+        <th>Date</th>
+        <th>Score</th>
+        <th>Total Questions</th>
+    </tr>
+
+    <tr th:each="result : ${results}">
+        <td th:text="${result.quizDate}"></td>
+        <td th:text="${result.score}"></td>
+        <td th:text="${result.totalQuestions}"></td>
+    </tr>
+
+</table>
+
+<br>
+
+<a th:href="@{/quiz}">Take Quiz Again</a>
+
+</body>
+</html>

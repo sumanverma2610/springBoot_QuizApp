@@ -1,16 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Quiz Application</title>
 </head>
 <body>
 
 <h1>Welcome to Quiz Application</h1>
 
-<a th:href="@{/login}">Login</a>
-<br><br>
+<div sec:authorize="isAnonymous()">
+    <a th:href="@{/login}">Login</a>
+    <br><br>
+    <a th:href="@{/register}">Register</a>
+</div>
 
-<a th:href="@{/register}">Register</a>
+<div sec:authorize="isAuthenticated()">
+    <h3>You are logged in.</h3>
+
+    <a th:href="@{/quiz}">Start Quiz</a>
+    <br><br>
+
+    <a th:href="@{/logout}">Logout</a>
+</div>
+
 </body>
 </html>

@@ -60,7 +60,7 @@ public class QuizController {
             }
         }
 
-        User user = userService.findByUsername(principal.getName()).orElseThrow();
+        User user = userService.findByUsername(principal.getName());
 
         Result result = new Result();
         result.setUser(user);
@@ -74,6 +74,15 @@ public class QuizController {
         model.addAttribute("total", questions.size());
 
         return "result";
+    }
+    @GetMapping("/my-results")
+    public String myResults(Model model, Principal principal) {
+
+        User user = userService.findByUsername(principal.getName());
+
+        model.addAttribute("results", resultService.getResultsByUser(user));
+
+        return "my-results";
     }
 }
 

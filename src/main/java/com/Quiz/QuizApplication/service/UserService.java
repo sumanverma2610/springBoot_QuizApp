@@ -28,8 +28,10 @@ public class UserService {
     }
 
     // Find user by username
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     // Find all users
