@@ -1,144 +1,95 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-
-  <meta charset="UTF-8">
-
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-  <title>AI Quiz Generator</title>
-
-  <style>
-
-    body {
-        font-family: Arial, sans-serif;
-        background: #f4f6f8;
-        padding: 40px;
-    }
-
-    .container {
-        max-width: 600px;
-        margin: auto;
-        background: white;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-
-    h1 {
-        text-align: center;
-    }
-
-    label {
-        display: block;
-        margin-top: 20px;
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
-
-    input {
-        width: 100%;
-        padding: 10px;
-        box-sizing: border-box;
-    }
-
-    button {
-        width: 100%;
-        margin-top: 25px;
-        padding: 12px;
-        background: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-
-    button:hover {
-        background: #0056b3;
-    }
-
-    .success {
-        margin-top: 20px;
-        padding: 15px;
-        background: #d4edda;
-        color: #155724;
-        border-radius: 5px;
-    }
-
-    .error {
-        margin-top: 20px;
-        padding: 15px;
-        background: #f8d7da;
-        color: #721c24;
-        border-radius: 5px;
-    }
-
-  </style>
-
+  <title>Generate AI Quiz</title>
 </head>
 
 <body>
 
-<div class="container">
-
-  <h1>AI Quiz Generator</h1>
-
-  <form th:action="@{/ai/quiz/generate}"
-        method="post">
-
-    <label for="topic">
-      Quiz Topic
-    </label>
-
-    <input
-            type="text"
-            id="topic"
-            name="topic"
-            placeholder="Example: Java Collections"
-            required
-    >
+<h2>Generate AI Quiz</h2>
 
 
-    <label for="numberOfQuestions">
-      Number of Questions
-    </label>
-
-    <input
-            type="number"
-            id="numberOfQuestions"
-            name="numberOfQuestions"
-            min="1"
-            max="20"
-            value="5"
-            required
-    >
-
-
-    <button type="submit">
-      Generate Quiz
-    </button>
-
-  </form>
-
-
-  <div
-          class="success"
-          th:if="${message}"
-          th:text="${message}">
-  </div>
-
-
-  <div
-          class="error"
-          th:if="${error}"
-          th:text="${error}">
-  </div>
-
+<!-- Success message -->
+<div th:if="${message}">
+  <p th:text="${message}"></p>
 </div>
+
+
+<!-- Error message -->
+<div th:if="${error}">
+  <p th:text="${error}"></p>
+</div>
+
+
+<form th:action="@{/ai/quiz/generate}" method="post">
+
+  <!-- Category -->
+
+  <label for="category">
+    Category
+  </label>
+
+  <select id="category"
+          name="categoryId"
+          required>
+
+    <option value="">
+      -- Select Category --
+    </option>
+
+    <option
+            th:each="category : ${categories}"
+            th:value="${category.id}"
+            th:text="${category.name}">
+    </option>
+
+  </select>
+
+  <br><br>
+
+
+  <!-- Topic -->
+
+  <label for="topic">
+    Quiz Topic
+  </label>
+
+  <input
+          type="text"
+          id="topic"
+          name="topic"
+          placeholder="Example: Java Collections"
+          required
+  >
+
+  <br><br>
+
+
+  <!-- Number of Questions -->
+
+  <label for="numberOfQuestions">
+    Number of Questions
+  </label>
+
+  <input
+          type="number"
+          id="numberOfQuestions"
+          name="numberOfQuestions"
+          min="1"
+          max="20"
+          value="5"
+          required
+  >
+
+  <br><br>
+
+
+  <button type="submit">
+    Generate Quiz
+  </button>
+
+</form>
 
 </body>
 

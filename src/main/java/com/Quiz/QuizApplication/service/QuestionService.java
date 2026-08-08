@@ -43,4 +43,7 @@ public class QuestionService {
     public Question updateQuestion(Question question) {
         return questionRepository.save(question);
     }
+    public List<Question> getQuestionsByCategory(Long categoryId) {
+        return questionRepository.findByCategoryId(categoryId);
+    }
 }

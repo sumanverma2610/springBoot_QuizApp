@@ -1,7 +1,9 @@
 package com.Quiz.QuizApplication.controller;
 
 import com.Quiz.QuizApplication.dto.AIQuestionDTO;
+import com.Quiz.QuizApplication.entity.Category;
 import com.Quiz.QuizApplication.entity.Question;
+import com.Quiz.QuizApplication.service.CategoryService;
 import com.Quiz.QuizApplication.service.GeminiService;
 import com.Quiz.QuizApplication.service.QuestionService;
 
@@ -17,30 +19,31 @@ public class AIController {
 
     private final GeminiService geminiService;
     private final QuestionService questionService;
-
+    private final CategoryService categoryService;
 
     public AIController(
             GeminiService geminiService,
-            QuestionService questionService) {
+            QuestionService questionService,
+            CategoryService categoryService) {
 
         this.geminiService = geminiService;
         this.questionService = questionService;
+        this.categoryService = categoryService;
     }
 
 
     // ==========================================
-    // Existing AI Test Page
+    // AI Test Page
     // ==========================================
 
     @GetMapping("/test")
     public String testPage() {
-
         return "ai-test";
     }
 
 
     // ==========================================
-    // Existing AI Test
+    // AI Test
     // ==========================================
 
     @PostMapping("/generate")
@@ -58,11 +61,17 @@ public class AIController {
 
 
     // ==========================================
-    // AI Quiz Generator Page
+    // AI Quiz Page
     // ==========================================
 
     @GetMapping("/quiz")
-    public String quizPage() {
+    public String quizPage(Model model) {
+
+        // Send categories to HTML
+        model.addAttribute(
+                "categories",
+                categoryService.getAllCategories()
+        );
 
         return "ai-quiz";
     }
@@ -76,16 +85,31 @@ public class AIController {
     public String generateQuiz(
             @RequestParam String topic,
             @RequestParam int numberOfQuestions,
+            @RequestParam Long categoryId,
             Model model) {
 
         try {
 
+            // Find selected category
+            Category category =
+                    categoryService
+                            .getCategoryById(categoryId)
+                            .orElseThrow(() ->
+                                    new RuntimeException(
+                                            "Category not found"
+                                    )
+                            );
+
+
+            // Generate questions using Gemini
             List<AIQuestionDTO> aiQuestions =
                     geminiService.generateQuizQuestions(
                             topic,
                             numberOfQuestions
                     );
 
+
+            // Save every question
             for (AIQuestionDTO aiQuestion : aiQuestions) {
 
                 Question question = new Question();
@@ -114,11 +138,16 @@ public class AIController {
                         aiQuestion.getCorrectAnswer()
                 );
 
-                // Category is currently null
-                question.setCategory(null);
 
+                // IMPORTANT
+                // Attach selected category
+                question.setCategory(category);
+
+
+                // Save to database
                 questionService.saveQuestion(question);
             }
+
 
             model.addAttribute(
                     "message",
@@ -136,6 +165,13 @@ public class AIController {
                             + e.getMessage()
             );
         }
+
+
+        // Load categories again
+        model.addAttribute(
+                "categories",
+                categoryService.getAllCategories()
+        );
 
         return "ai-quiz";
     }

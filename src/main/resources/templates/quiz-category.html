@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Select Quiz Category</title>
+</head>
+
+<body>
+
+<h2>Select Quiz Category</h2>
+
+<p>Choose a category to start your quiz.</p>
+
+<div th:if="${categories.isEmpty()}">
+    <p>No categories available.</p>
+</div>
+
+<div th:each="category : ${categories}">
+
+    <h3 th:text="${category.name}"></h3>
+
+    <a th:href="@{/quiz/start(categoryId=${category.id})}">
+        Start Quiz
+    </a>
+
+    <br><br>
+
+</div>
+
+</body>
+
+</html>
