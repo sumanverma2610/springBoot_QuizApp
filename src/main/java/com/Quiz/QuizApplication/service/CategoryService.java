@@ -15,12 +15,18 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
+    // Save category
     public Category saveCategory(Category category) {
         return categoryRepository.save(category);
     }
 
+    // Get all categories
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
 
+    // Delete category
+    public void deleteCategory(Long id) {
+        categoryRepository.deleteById(id);
+    }
 }
