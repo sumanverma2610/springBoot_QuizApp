@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AI Button</title>
+</head>
+
+<body>
+
+<!-- AI Floating Button Fragment -->
+<div th:fragment="aiButton">
+
+    <a th:href="@{/ai/test}"
+       class="ai-floating-button"
+       title="AI Test">
+
+        🤖
+
+    </a>
+
+    <style>
+
+        /* Floating AI Button */
+        .ai-floating-button {
+            position: fixed;
+
+            right: 25px;
+            bottom: 25px;
+
+            width: 60px;
+            height: 60px;
+
+            background: linear-gradient(
+                    135deg,
+                    #6c5ce7,
+                    #4834d4
+            );
+
+            color: white;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-decoration: none;
+
+            font-size: 28px;
+
+            box-shadow:
+                    0 5px 15px rgba(0, 0, 0, 0.3);
+
+            z-index: 9999;
+
+            transition:
+                    transform 0.3s ease,
+                    box-shadow 0.3s ease;
+        }
+
+
+        /* Hover Effect */
+        .ai-floating-button:hover {
+
+            transform: scale(1.12);
+
+            box-shadow:
+                    0 8px 22px rgba(0, 0, 0, 0.4);
+
+        }
+
+
+        /* Click Effect */
+        .ai-floating-button:active {
+
+            transform: scale(0.95);
+
+        }
+
+    </style>
+
+</div>
+
+</body>
+</html>
