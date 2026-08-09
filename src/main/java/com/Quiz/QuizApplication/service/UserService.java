@@ -48,4 +48,9 @@ public class UserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+
+    public long getTotalStudents() {
+        return userRepository.countByRole("STUDENT");
+    }
+
 }

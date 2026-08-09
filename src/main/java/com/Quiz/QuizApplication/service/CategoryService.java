@@ -35,4 +35,11 @@ public class CategoryService {
     public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
     }
+
+    // Get total number of categories
+    public long getTotalCategories() {
+        return categoryRepository.count();
+    }
+
+
 }

@@ -41,5 +41,6 @@ public class ResultService {
     public void deleteResult(Long id) {
         resultRepository.deleteById(id);
     }
+    public long getTotalAttempts() { return resultRepository.count(); }
 
 }

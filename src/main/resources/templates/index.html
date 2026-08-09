@@ -1,80 +1,173 @@
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Quiz Application</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        h3 {
+            color: #444;
+            margin-top: 30px;
+        }
+
+        a {
+            display: inline-block;
+            margin: 8px;
+            padding: 10px 20px;
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 6px;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+
+        .logout {
+            background-color: #dc3545;
+        }
+
+        .logout:hover {
+            background-color: #a71d2a;
+        }
+
+        .admin {
+            background-color: #6f42c1;
+        }
+
+        .admin:hover {
+            background-color: #4e2a8e;
+        }
+
+        .ai {
+            background-color: #198754;
+        }
+
+        .ai:hover {
+            background-color: #146c43;
+        }
+    </style>
 </head>
 
 <body>
 
-<h1>Welcome to Quiz Application</h1>
+<div class="container">
 
-<!-- Not Logged In -->
-<div sec:authorize="isAnonymous()">
-
-    <a th:href="@{/login}">Login</a>
-
-    <br><br>
-
-    <a th:href="@{/register}">Register</a>
-
-</div>
+    <h1>Welcome to Quiz Application</h1>
 
 
-<!-- STUDENT -->
-<div sec:authorize="hasRole('STUDENT')">
+    <!-- ============================= -->
+    <!-- NOT LOGGED IN -->
+    <!-- ============================= -->
 
-    <h3>Welcome Student!</h3>
+    <div sec:authorize="!isAuthenticated()">
 
-    <a th:href="@{/quiz}">Start Quiz</a>
+        <h3>Please Login or Register</h3>
 
-    <br><br>
+        <a th:href="@{/login}">
+            Login
+        </a>
 
-    <a th:href="@{/my-results}">My Previous Results</a>
+        <a th:href="@{/register}">
+            Register
+        </a>
 
-    <br><br>
-
-    <a th:href="@{/logout}">Logout</a>
-
-</div>
+    </div>
 
 
-<!-- ADMIN -->
-<div sec:authorize="hasRole('ADMIN')">
+    <!-- ============================= -->
+    <!-- STUDENT -->
+    <!-- ============================= -->
 
-    <h3>Welcome Admin!</h3>
+    <div sec:authorize="hasRole('STUDENT')">
 
-    <a th:href="@{/admin/questions}">
-        Manage Questions
-    </a>
+        <h3>Welcome Student!</h3>
 
-    <br><br>
+        <a th:href="@{/quiz}">
+            Start Quiz
+        </a>
 
-    <a th:href="@{/admin/add-question}">
-        Add Question
-    </a>
+        <a th:href="@{/my-results}">
+            My Previous Results
+        </a>
 
-    <br><br>
-    <a th:href="@{/admin/categories}">
-        Manage Categories
-    </a>
-    <br><br>
-    <a th:href="@{/ai/test}">
-        AI Test
-    </a>
+        <br>
 
-    <br><br>
+        <a class="logout" th:href="@{/logout}">
+            Logout
+        </a>
 
-    <a th:href="@{/ai/quiz}">
-        Generate AI Quiz
-    </a>
+    </div>
 
-    <br><br>
 
-    <a th:href="@{/logout}">
-        Logout
-    </a>
+    <!-- ============================= -->
+    <!-- ADMIN -->
+    <!-- ============================= -->
+
+    <div sec:authorize="hasRole('ADMIN')">
+
+        <h3>Welcome Admin!</h3>
+
+        <a class="admin" th:href="@{/admin/questions}">
+            Manage Questions
+        </a>
+
+        <a class="admin" th:href="@{/admin/add-question}">
+            Add Question
+        </a>
+
+        <a class="admin" th:href="@{/admin/categories}">
+            Manage Categories
+        </a>
+
+        <br>
+
+        <a class="ai" th:href="@{/ai/test}">
+            AI Test
+        </a>
+
+        <a class="ai" th:href="@{/ai/quiz}">
+            Generate AI Quiz
+        </a>
+
+        <br>
+        <a th:href="@{/admin/dashboard}">
+            Admin Dashboard
+        </a>
+        <br>
+        <a class="logout" th:href="@{/logout}">
+            Logout
+        </a>
+
+    </div>
 
 </div>
 

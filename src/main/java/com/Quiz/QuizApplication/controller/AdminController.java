@@ -3,6 +3,8 @@ package com.Quiz.QuizApplication.controller;
 import com.Quiz.QuizApplication.entity.Question;
 import com.Quiz.QuizApplication.service.CategoryService;
 import com.Quiz.QuizApplication.service.QuestionService;
+import com.Quiz.QuizApplication.service.ResultService;
+import com.Quiz.QuizApplication.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,13 +15,17 @@ public class AdminController {
 
     private final QuestionService questionService;
     private final CategoryService categoryService;
+    private final UserService userService;
+    private final ResultService resultService;
 
     public AdminController(
             QuestionService questionService,
-            CategoryService categoryService) {
+            CategoryService categoryService ,UserService userService,ResultService resultService ) {
 
         this.questionService = questionService;
         this.categoryService = categoryService;
+        this.userService = userService;
+        this.resultService = resultService;
     }
 
     // Open Add Question Page
@@ -80,5 +86,30 @@ public class AdminController {
         questionService.deleteQuestion(id);
 
         return "redirect:/admin/questions";
+    }
+    @GetMapping("/dashboard")
+    public String adminDashboard(Model model) {
+
+        model.addAttribute(
+                "totalStudents",
+                userService.getTotalStudents()
+        );
+
+        model.addAttribute(
+                "totalQuestions",
+                questionService.getTotalQuestions()
+        );
+
+        model.addAttribute(
+                "totalCategories",
+                categoryService.getTotalCategories()
+        );
+
+        model.addAttribute(
+                "totalAttempts",
+                resultService.getTotalAttempts()
+        );
+
+        return "admin-dashboard";
     }
 }

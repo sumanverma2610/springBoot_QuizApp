@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin Dashboard</title>
+
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f8;
+        margin: 0;
+        padding: 40px;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: auto;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 40px;
+    }
+
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+
+    .card {
+        background: white;
+        padding: 30px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .card h2 {
+        margin: 0;
+        color: #555;
+    }
+
+    .number {
+        font-size: 40px;
+        font-weight: bold;
+        margin-top: 15px;
+        color: #007bff;
+    }
+
+    .links {
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    .links a {
+        display: inline-block;
+        margin: 8px;
+        padding: 12px 20px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+    }
+
+    .links a:hover {
+        background-color: #0056b3;
+    }
+
+    .logout {
+        background-color: #dc3545 !important;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>Admin Dashboard</h1>
+
+  <div class="cards">
+
+    <!-- Total Students -->
+    <div class="card">
+      <h2>Total Students</h2>
+
+      <div class="number"
+           th:text="${totalStudents}">
+        0
+      </div>
+    </div>
+
+
+    <!-- Total Questions -->
+    <div class="card">
+      <h2>Total Questions</h2>
+
+      <div class="number"
+           th:text="${totalQuestions}">
+        0
+      </div>
+    </div>
+
+
+    <!-- Total Categories -->
+    <div class="card">
+      <h2>Total Categories</h2>
+
+      <div class="number"
+           th:text="${totalCategories}">
+        0
+      </div>
+    </div>
+
+
+    <!-- Total Attempts -->
+    <div class="card">
+      <h2>Total Quiz Attempts</h2>
+
+      <div class="number"
+           th:text="${totalAttempts}">
+        0
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- Admin Links -->
+
+  <div class="links">
+
+    <a th:href="@{/admin/questions}">
+      Manage Questions
+    </a>
+
+    <a th:href="@{/admin/add-question}">
+      Add Question
+    </a>
+
+    <a th:href="@{/admin/categories}">
+      Manage Categories
+    </a>
+
+    <a th:href="@{/}">
+      Home
+    </a>
+
+    <a class="logout"
+       th:href="@{/logout}">
+      Logout
+    </a>
+
+  </div>
+
+</div>
+
+</body>
+</html>
+

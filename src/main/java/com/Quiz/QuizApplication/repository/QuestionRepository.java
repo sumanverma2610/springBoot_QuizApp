@@ -11,4 +11,5 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     List<Question> findByCategoryId(Long categoryId);
 
+
 }

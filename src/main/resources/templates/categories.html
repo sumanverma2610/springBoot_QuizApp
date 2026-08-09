@@ -1,77 +1,382 @@
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <title>Categories</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Manage Categories</title>
+
+  <style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        color: #333;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 230px;
+        height: 100vh;
+        background: #1f2937;
+        padding-top: 25px;
+    }
+
+    .sidebar h2 {
+        color: white;
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+    .sidebar a {
+        display: block;
+        color: #d1d5db;
+        text-decoration: none;
+        padding: 15px 25px;
+        font-size: 15px;
+    }
+
+    .sidebar a:hover {
+        background: #374151;
+        color: white;
+    }
+
+    .logout {
+        margin-top: 30px;
+        color: #f87171 !important;
+    }
+
+    /* Main Content */
+    .main {
+        margin-left: 230px;
+        padding: 35px;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .header h1 {
+        margin: 0;
+        font-size: 28px;
+        color: #111827;
+    }
+
+    .header p {
+        color: #6b7280;
+        margin-top: 8px;
+    }
+
+    /* Add Category Card */
+    .add-card {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        margin-bottom: 30px;
+    }
+
+    .add-card h2 {
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    .form {
+        display: flex;
+        gap: 12px;
+    }
+
+    .form input {
+        flex: 1;
+        padding: 12px 15px;
+        border: 1px solid #d1d5db;
+        border-radius: 7px;
+        font-size: 15px;
+        outline: none;
+    }
+
+    .form input:focus {
+        border-color: #2563eb;
+    }
+
+    .add-btn {
+        border: none;
+        background: #2563eb;
+        color: white;
+        padding: 12px 22px;
+        border-radius: 7px;
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+    .add-btn:hover {
+        background: #1d4ed8;
+    }
+
+    /* Table */
+    .table-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    }
+
+    .table-header {
+        padding: 20px 25px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .table-header h2 {
+        margin: 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th {
+        background: #f9fafb;
+        color: #4b5563;
+        text-align: left;
+        padding: 15px 20px;
+        font-size: 14px;
+    }
+
+    td {
+        padding: 16px 20px;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    tr:hover {
+        background: #f9fafb;
+    }
+
+    .category-id {
+        color: #6b7280;
+        font-weight: bold;
+    }
+
+    .category-name {
+        font-weight: 600;
+    }
+
+    .delete-btn {
+        display: inline-block;
+        background: #fee2e2;
+        color: #dc2626;
+        padding: 8px 14px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .delete-btn:hover {
+        background: #fecaca;
+    }
+
+    .empty {
+        text-align: center;
+        padding: 35px;
+        color: #6b7280;
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+
+        .sidebar {
+            width: 180px;
+        }
+
+        .main {
+            margin-left: 180px;
+            padding: 20px;
+        }
+
+        .form {
+            flex-direction: column;
+        }
+
+        .add-btn {
+            width: 100%;
+        }
+    }
+  </style>
 </head>
 
 <body>
 
-<h2>Manage Categories</h2>
+<!-- Sidebar -->
 
-<!-- Add Category -->
+<div class="sidebar">
 
-<form th:action="@{/admin/categories/save}"
-      th:object="${category}"
-      method="post">
+  <h2>Quiz Admin</h2>
 
-  <label>Category Name:</label>
+  <a th:href="@{/admin/dashboard}">
+    Dashboard
+  </a>
 
-  <input type="text"
-         th:field="*{name}"
-         placeholder="Enter category name"
-         required>
+  <a th:href="@{/admin/questions}">
+    Manage Questions
+  </a>
 
-  <button type="submit">
-    Add Category
-  </button>
+  <a th:href="@{/admin/add-question}">
+    Add Question
+  </a>
 
-</form>
+  <a th:href="@{/admin/categories}">
+    Categories
+  </a>
 
-<hr>
+  <a th:href="@{/ai/test}">
+    AI Test
+  </a>
 
-<h3>All Categories</h3>
+  <a th:href="@{/ai/quiz}">
+    Generate AI Quiz
+  </a>
 
-<table border="1">
+  <a class="logout"
+     th:href="@{/logout}">
+    Logout
+  </a>
 
-  <thead>
+</div>
 
-  <tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Action</th>
-  </tr>
 
-  </thead>
+<!-- Main Content -->
 
-  <tbody>
+<div class="main">
 
-  <tr th:each="category : ${categories}">
+  <div class="header">
 
-    <td th:text="${category.id}"></td>
+    <div>
+      <h1>Manage Categories</h1>
 
-    <td th:text="${category.name}"></td>
+      <p>
+        Create and manage quiz categories.
+      </p>
+    </div>
 
-    <td>
+  </div>
 
-      <a th:href="@{/admin/categories/delete/{id}(id=${category.id})}">
-        Delete
-      </a>
 
-    </td>
+  <!-- Add Category -->
 
-  </tr>
+  <div class="add-card">
 
-  </tbody>
+    <h2>Add New Category</h2>
 
-</table>
+    <form class="form"
+          th:action="@{/admin/categories/save}"
+          method="post">
 
-<br>
+      <input
+              type="text"
+              name="name"
+              placeholder="Enter category name"
+              required>
 
-<a th:href="@{/}">
-  Back to Dashboard
-</a>
+      <button class="add-btn"
+              type="submit">
+
+        + Add Category
+
+      </button>
+
+    </form>
+
+  </div>
+
+
+  <!-- Category List -->
+
+  <div class="table-card">
+
+    <div class="table-header">
+
+      <h2>All Categories</h2>
+
+    </div>
+
+
+    <table>
+
+      <thead>
+
+      <tr>
+        <th>ID</th>
+        <th>Category Name</th>
+        <th>Action</th>
+      </tr>
+
+      </thead>
+
+
+      <tbody>
+
+      <tr th:each="category : ${categories}">
+
+        <td class="category-id"
+            th:text="${category.id}">
+          1
+        </td>
+
+        <td class="category-name"
+            th:text="${category.name}">
+          Java
+        </td>
+
+        <td>
+
+          <a class="delete-btn"
+             th:href="@{/admin/categories/delete/{id}(id=${category.id})}"
+             onclick="return confirm('Are you sure you want to delete this category?');">
+
+            Delete
+
+          </a>
+
+        </td>
+
+      </tr>
+
+
+      <!-- No Categories -->
+
+      <tr th:if="${#lists.isEmpty(categories)}">
+
+        <td colspan="3"
+            class="empty">
+
+          No categories found.
+
+        </td>
+
+      </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
 
 </body>
 
 </html>
+

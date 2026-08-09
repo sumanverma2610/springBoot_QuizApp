@@ -47,4 +47,10 @@ public class QuestionService {
         return questionRepository.findByCategoryId(categoryId);
     }
 
+    // Get total number of questions
+    public long getTotalQuestions() {
+        return questionRepository.count();
+    }
+
+
 }
