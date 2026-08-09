@@ -41,4 +41,5 @@ public class ResultService {
     public void deleteResult(Long id) {
         resultRepository.deleteById(id);
     }
+
 }

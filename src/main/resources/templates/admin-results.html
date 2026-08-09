@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
-    <title>My Results</title>
+    <title>All Quiz Results</title>
 
-    ```
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 40px;
+            background: #f5f6fa;
         }
 
         h2 {
@@ -18,9 +17,10 @@
         }
 
         table {
-            width: 80%;
+            width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            background: white;
         }
 
         th, td {
@@ -30,7 +30,18 @@
         }
 
         th {
-            background-color: #f2f2f2;
+            background: #343a40;
+            color: white;
+        }
+
+        .pass {
+            color: green;
+            font-weight: bold;
+        }
+
+        .fail {
+            color: red;
+            font-weight: bold;
         }
 
         a {
@@ -39,25 +50,23 @@
             text-decoration: none;
         }
     </style>
-
-
 </head>
 
 <body>
 
-<h2>My Quiz Results</h2>
+<h2>All Student Quiz Results</h2>
 
 <table>
 
-    ```
     <thead>
     <tr>
+        <th>Student</th>
         <th>Category</th>
         <th>Score</th>
         <th>Total Questions</th>
         <th>Percentage</th>
-        <th>Status</th>
         <th>Date</th>
+        <th>Status</th>
     </tr>
     </thead>
 
@@ -65,9 +74,14 @@
 
     <tr th:each="result : ${results}">
 
+        <!-- Student -->
+        <td th:text="${result.user != null ? result.user.username : 'Unknown'}">
+            student
+        </td>
+
         <!-- Category -->
         <td th:text="${result.category != null ? result.category.name : 'Unknown'}">
-            Unknown
+            Java
         </td>
 
         <!-- Score -->
@@ -75,16 +89,14 @@
             8
         </td>
 
-        <!-- Total Questions -->
+        <!-- Total -->
         <td th:text="${result.totalQuestions}">
             10
         </td>
+
+        <!-- Percentage -->
         <td th:text="${result.totalQuestions > 0 ? (result.score * 100 / result.totalQuestions) + '%' : '0%'}">
             80%
-        </td>
-
-        <td th:text="${result.totalQuestions > 0 && (result.score * 100 / result.totalQuestions) >= 40 ? 'PASS' : 'FAIL'}">
-            PASS
         </td>
 
         <!-- Date -->
@@ -92,11 +104,17 @@
             2026-08-09
         </td>
 
+        <!-- Status -->
+        <td
+                th:text="${result.totalQuestions > 0 && (result.score * 100 / result.totalQuestions) >= 40 ? 'PASS' : 'FAIL'}"
+                th:class="${result.totalQuestions > 0 && (result.score * 100 / result.totalQuestions) >= 40 ? 'pass' : 'fail'}">
+            PASS
+        </td>
+
     </tr>
 
-    <!-- No results message -->
     <tr th:if="${#lists.isEmpty(results)}">
-        <td colspan="4">
+        <td colspan="7">
             No quiz results found.
         </td>
     </tr>

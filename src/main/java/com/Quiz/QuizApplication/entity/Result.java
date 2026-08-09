@@ -21,17 +21,30 @@ public class Result {
     @JoinColumn(name = "user_id")
     private User user;
 
+    // NEW: Category of the quiz
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     // Default Constructor
     public Result() {
     }
 
     // Parameterized Constructor
-    public Result(Long id, int score, int totalQuestions, LocalDate quizDate, User user) {
+    public Result(
+            Long id,
+            int score,
+            int totalQuestions,
+            LocalDate quizDate,
+            User user,
+            Category category) {
+
         this.id = id;
         this.score = score;
         this.totalQuestions = totalQuestions;
         this.quizDate = quizDate;
         this.user = user;
+        this.category = category;
     }
 
     // Getters & Setters
@@ -74,5 +87,15 @@ public class Result {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    // NEW: Category getter/setter
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

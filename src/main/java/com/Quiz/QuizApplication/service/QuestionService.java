@@ -46,4 +46,5 @@ public class QuestionService {
     public List<Question> getQuestionsByCategory(Long categoryId) {
         return questionRepository.findByCategoryId(categoryId);
     }
+
 }

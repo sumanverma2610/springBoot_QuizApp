@@ -105,25 +105,33 @@ public class QuizController {
                     answers.get("question_" + question.getId());
 
             if (selectedAnswer != null &&
-                    selectedAnswer.equals(
-                            question.getCorrectAnswer())) {
+                    selectedAnswer.equals(question.getCorrectAnswer())) {
 
                 score++;
             }
         }
 
+        // Get logged-in user
         User user =
-                userService.findByUsername(
-                        principal.getName()
-                );
+                userService.findByUsername(principal.getName());
 
+        // Get category
+        Category category =
+                categoryService
+                        .getCategoryById(categoryId)
+                        .orElseThrow(() ->
+                                new RuntimeException("Category not found"));
+
+        // Create result
         Result result = new Result();
 
         result.setUser(user);
+        result.setCategory(category);   // IMPORTANT
         result.setScore(score);
         result.setTotalQuestions(questions.size());
         result.setQuizDate(LocalDate.now());
 
+        // Save result
         resultService.saveResult(result);
 
         model.addAttribute("score", score);
@@ -143,9 +151,7 @@ public class QuizController {
             Principal principal) {
 
         User user =
-                userService.findByUsername(
-                        principal.getName()
-                );
+                userService.findByUsername(principal.getName());
 
         model.addAttribute(
                 "results",
@@ -154,4 +160,18 @@ public class QuizController {
 
         return "my-results";
     }
+
+
+    @GetMapping("/admin/results")
+    public String adminResults(Model model) {
+
+        model.addAttribute(
+                "results",
+                resultService.getAllResults()
+        );
+
+        return "admin-results";
+    }
+
+
 }
