@@ -1,27 +1,222 @@
 <!DOCTYPE html>
+
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Login</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | QuizMaster</title>
+
+  ```
+  <style>
+    * {
+        box-sizing: border-box;
+    }
+
+    :root {
+        --bg: #080c18;
+        --card: rgba(20, 27, 45, 0.9);
+        --border: #27324a;
+        --text: #f8fafc;
+        --muted: #94a3b8;
+        --primary: #6366f1;
+        --primary-hover: #818cf8;
+    }
+
+    body.light {
+        --bg: #eef2ff;
+        --card: #ffffff;
+        --border: #e2e8f0;
+        --text: #0f172a;
+        --muted: #64748b;
+        --primary: #4f46e5;
+        --primary-hover: #6366f1;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        transition: 0.3s;
+    }
+
+    .theme-btn {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        border: 1px solid var(--border);
+        border-radius: 50%;
+        background: var(--card);
+        color: var(--text);
+        cursor: pointer;
+        font-size: 18px;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 430px;
+        padding: 38px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+
+    .logo {
+        width: 65px;
+        height: 65px;
+        margin: 0 auto 18px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    }
+
+    h2 {
+        margin: 0 0 8px;
+        font-size: 30px;
+    }
+
+    .subtitle {
+        margin: 0 0 30px;
+        color: var(--muted);
+        font-size: 14px;
+    }
+
+    .form-group {
+        text-align: left;
+        margin-bottom: 18px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    input {
+        width: 100%;
+        padding: 13px 14px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        outline: none;
+        background: var(--bg);
+        color: var(--text);
+        font-size: 15px;
+    }
+
+    input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+    }
+
+    button[type="submit"] {
+        width: 100%;
+        padding: 13px;
+        margin-top: 5px;
+        border: none;
+        border-radius: 10px;
+        background: linear-gradient(135deg, var(--primary), #8b5cf6);
+        color: white;
+        font-size: 15px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.25s;
+    }
+
+    button[type="submit"]:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, var(--primary-hover), #a78bfa);
+    }
+
+    .register {
+        margin-top: 25px;
+        color: var(--muted);
+        font-size: 14px;
+    }
+
+    .register a {
+        color: var(--primary-hover);
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .register a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 500px) {
+        .login-card {
+            padding: 28px 22px;
+        }
+    }
+  </style>
+  ```
+
 </head>
+
 <body>
 
-<h2>Login</h2>
+<button class="theme-btn" id="themeToggle" type="button">🌙</button>
 
-<form th:action="@{/login}" method="post">
+<div class="login-card">
+  <div class="logo">🔐</div>
 
-  Username:
-  <input type="text" name="username"><br><br>
+  ```
+  <h2>Welcome Back</h2>
+  <p class="subtitle">Login to continue to QuizMaster</p>
 
-  Password:
-  <input type="password" name="password"><br><br>
+  <form th:action="@{/login}" method="post">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input id="username" type="text" name="username" placeholder="Enter username" required>
+    </div>
 
-  <button type="submit">Login</button>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input id="password" type="password" name="password" placeholder="Enter password" required>
+    </div>
 
-</form>
+    <button type="submit">Login</button>
+  </form>
 
-<br>
+  <div class="register">
+    Don't have an account?
+    <a th:href="@{/register}">Create Account</a>
+  </div>
+  ```
 
-<a th:href="@{/register}">Create Account</a>
-<!--<div th:replace="~{fragments/ai-button :: aiButton}"></div>-->
+</div>
+
+<script>
+  const themeToggle = document.getElementById("themeToggle");
+  const savedTheme = localStorage.getItem("quiz-theme");
+
+  if (savedTheme === "light") {
+      document.body.classList.add("light");
+      themeToggle.textContent = "☀️";
+  }
+
+  themeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("light");
+
+      const isLight = document.body.classList.contains("light");
+
+      themeToggle.textContent = isLight ? "☀️" : "🌙";
+      localStorage.setItem("quiz-theme", isLight ? "light" : "dark");
+  });
+</script>
+
 </body>
 </html>

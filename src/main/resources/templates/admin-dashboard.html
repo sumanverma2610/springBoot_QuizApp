@@ -4,395 +4,279 @@
       xmlns:th="http://www.thymeleaf.org">
 
 <head>
-
   <meta charset="UTF-8">
-
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Admin Dashboard</title>
 
   <style>
-
     * {
         box-sizing: border-box;
     }
 
     body {
         margin: 0;
+        min-height: 100vh;
         font-family: Arial, sans-serif;
-        background: #f4f6f9;
+        background: #0f172a;
+        color: #e2e8f0;
     }
 
-    /* ================= HEADER ================= */
-
     .header {
-        background: linear-gradient(
-                135deg,
-                #6c5ce7,
-                #4834d4
-        );
+        padding: 25px 7%;
+        border-bottom: 1px solid #334155;
+        background: #111827;
+    }
 
-        color: white;
-
-        padding: 20px 40px;
-
+    .header-content {
+        max-width: 1200px;
+        margin: auto;
         display: flex;
-
-        justify-content: space-between;
-
         align-items: center;
+        justify-content: space-between;
     }
 
     .header h1 {
         margin: 0;
-        font-size: 26px;
+        color: #f8fafc;
+        font-size: 28px;
     }
 
     .header p {
-        margin: 5px 0 0;
-        opacity: 0.9;
+        margin: 7px 0 0;
+        color: #94a3b8;
     }
 
-    .home-btn {
-        background: white;
-        color: #4834d4;
-
+    .home {
+        padding: 10px 16px;
+        border-radius: 8px;
+        background: #334155;
+        color: #e2e8f0;
         text-decoration: none;
-
-        padding: 10px 18px;
-
-        border-radius: 7px;
-
-        font-weight: bold;
+        transition: 0.3s;
     }
 
-    .home-btn:hover {
-        background: #f0f0f0;
+    .home:hover {
+        background: #475569;
     }
-
-
-    /* ================= CONTAINER ================= */
 
     .container {
-        max-width: 1100px;
-
+        width: 90%;
+        max-width: 1200px;
         margin: 40px auto;
-
-        padding: 0 20px;
     }
 
-
-    /* ================= CARDS ================= */
-
-    .cards {
+    .stats {
         display: grid;
-
-        grid-template-columns:
-                repeat(4, 1fr);
-
+        grid-template-columns: repeat(4, 1fr);
         gap: 20px;
     }
 
     .card {
-        background: white;
-
         padding: 25px;
-
-        border-radius: 12px;
-
-        box-shadow:
-                0 4px 15px
-                rgba(0,0,0,0.08);
-
-        text-align: center;
-
-        transition:
-                transform 0.2s ease;
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 14px;
+        transition: 0.3s;
     }
 
     .card:hover {
-        transform: translateY(-5px);
+        transform: translateY(-4px);
+        border-color: #6366f1;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
     }
 
     .card h2 {
         margin: 0;
-
-        font-size: 17px;
-
-        color: #555;
+        font-size: 16px;
+        color: #cbd5e1;
+        font-weight: normal;
     }
 
     .number {
         margin-top: 15px;
-
-        font-size: 36px;
-
+        font-size: 32px;
         font-weight: bold;
-
-        color: #4834d4;
+        color: #a78bfa;
     }
 
-
-    /* ================= QUICK ACTIONS ================= */
-
-    .actions {
+    .actions-section {
         margin-top: 40px;
-
-        background: white;
-
-        padding: 30px;
-
-        border-radius: 12px;
-
-        box-shadow:
-                0 4px 15px
-                rgba(0,0,0,0.08);
+        padding: 28px;
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 14px;
     }
 
-    .actions h2 {
-        margin-top: 0;
-
-        color: #333;
+    .actions-section h2 {
+        margin: 0 0 20px;
+        color: #f8fafc;
     }
 
     .action-buttons {
-        display: flex;
-
-        flex-wrap: wrap;
-
-        gap: 12px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
     }
 
     .action-buttons a {
-        display: inline-block;
-
-        padding: 12px 20px;
-
-        border-radius: 7px;
-
+        padding: 14px 18px;
+        border: 1px solid #475569;
+        border-radius: 9px;
+        background: #0f172a;
+        color: #e2e8f0;
         text-decoration: none;
-
-        background: #6c5ce7;
-
-        color: white;
-
-        font-weight: bold;
+        text-align: center;
+        transition: 0.3s;
     }
 
     .action-buttons a:hover {
-        background: #4834d4;
+        background: #312e81;
+        border-color: #6366f1;
+        transform: translateY(-2px);
     }
 
     .action-buttons .logout {
-        background: #dc3545;
+        background: #3f1d25;
+        border-color: #7f1d1d;
+        color: #fca5a5;
     }
 
     .action-buttons .logout:hover {
-        background: #a71d2a;
+        background: #7f1d1d;
+        color: white;
     }
-
-
-    /* ================= RESPONSIVE ================= */
 
     @media (max-width: 900px) {
-
-        .cards {
-            grid-template-columns:
-                    repeat(2, 1fr);
-        }
-
-    }
-
-    @media (max-width: 600px) {
-
-        .cards {
-            grid-template-columns: 1fr;
-        }
-
-        .header {
-            padding: 20px;
-
-            flex-direction: column;
-
-            gap: 15px;
-
-            text-align: center;
+        .stats {
+            grid-template-columns: repeat(2, 1fr);
         }
 
         .action-buttons {
-            flex-direction: column;
+            grid-template-columns: repeat(2, 1fr);
         }
-
-        .action-buttons a {
-            text-align: center;
-        }
-
     }
 
+    @media (max-width: 600px) {
+        .header-content {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 18px;
+        }
+
+        .stats,
+        .action-buttons {
+            grid-template-columns: 1fr;
+        }
+
+        .container {
+            width: 92%;
+        }
+    }
   </style>
-
 </head>
-
 
 <body>
 
+<header class="header">
 
-<!-- ================= HEADER ================= -->
+  <div class="header-content">
 
-<div class="header">
+    <div>
+      <h1>Admin Dashboard</h1>
+      <p>Quiz Application Administration</p>
+    </div>
 
-  <div>
-
-    <h1>Admin Dashboard</h1>
-
-    <p>
-      Quiz Application Administration
-    </p>
+    <a class="home" th:href="@{/}">
+      🏠 Home
+    </a>
 
   </div>
 
-  <a class="home-btn"
-     th:href="@{/}">
-    🏠 Home
-  </a>
+</header>
 
-</div>
+<main class="container">
 
+  <!-- Statistics -->
 
-<!-- ================= MAIN ================= -->
-
-<div class="container">
-
-
-  <!-- ================= STATISTICS ================= -->
-
-  <div class="cards">
-
-
-    <!-- Total Students -->
+  <div class="stats">
 
     <div class="card">
-
-      <h2>
-        👨‍🎓 Total Students
-      </h2>
+      <h2>👨‍🎓 Total Students</h2>
 
       <div class="number"
            th:text="${totalStudents}">
         0
       </div>
-
     </div>
 
-
-    <!-- Total Questions -->
-
     <div class="card">
-
-      <h2>
-        ❓ Total Questions
-      </h2>
+      <h2>❓ Total Questions</h2>
 
       <div class="number"
            th:text="${totalQuestions}">
         0
       </div>
-
     </div>
 
-
-    <!-- Total Categories -->
-
     <div class="card">
-
-      <h2>
-        📚 Total Categories
-      </h2>
+      <h2>📚 Total Categories</h2>
 
       <div class="number"
            th:text="${totalCategories}">
         0
       </div>
-
     </div>
 
-
-    <!-- Total Attempts -->
-
     <div class="card">
-
-      <h2>
-        📝 Quiz Attempts
-      </h2>
+      <h2>📝 Quiz Attempts</h2>
 
       <div class="number"
            th:text="${totalAttempts}">
         0
       </div>
-
     </div>
-
 
   </div>
 
+  <!-- Quick Actions -->
 
-  <!-- ================= QUICK ACTIONS ================= -->
+  <section class="actions-section">
 
-  <div class="actions">
-
-    <h2>
-      Quick Actions
-    </h2>
+    <h2>Quick Actions</h2>
 
     <div class="action-buttons">
-
 
       <a th:href="@{/admin/questions}">
         📋 Manage Questions
       </a>
 
-
       <a th:href="@{/admin/add-question}">
         ➕ Add Question
       </a>
-
 
       <a th:href="@{/admin/categories}">
         📚 Manage Categories
       </a>
 
-
       <a th:href="@{/ai/quiz}">
         🤖 Generate AI Quiz
       </a>
 
-
       <a th:href="@{/ai/test}">
         🧠 AI Assistant
       </a>
-
 
       <a class="logout"
          th:href="@{/logout}">
         🚪 Logout
       </a>
 
-
     </div>
 
-  </div>
+  </section>
 
-
-</div>
-
-
-<!-- ================= AI FLOATING BUTTON ================= -->
-
-<div th:replace="~{fragments/ai-button :: aiButton}">
-</div>
-
+</main>
 
 </body>
-
 </html>

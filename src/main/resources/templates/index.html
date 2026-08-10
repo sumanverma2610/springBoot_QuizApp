@@ -1,175 +1,1329 @@
-
 <!DOCTYPE html>
+
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Quiz Application</title>
 
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f8;
+
+
+        * {
             margin: 0;
-            padding: 40px;
-            text-align: center;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .container {
-            max-width: 700px;
-            margin: auto;
-            background: white;
-            padding: 40px;
+
+        :root {
+
+            --bg: #070b17;
+
+            --bg-secondary: #0d1326;
+
+            --card: rgba(17, 24, 39, 0.78);
+
+            --card-hover: rgba(30, 41, 59, 0.9);
+
+            --border: rgba(148, 163, 184, 0.15);
+
+            --text: #f8fafc;
+
+            --muted: #94a3b8;
+
+            --primary: #6366f1;
+
+            --primary-light: #818cf8;
+
+            --purple: #8b5cf6;
+
+            --green: #10b981;
+
+            --red: #ef4444;
+
+            --cyan: #06b6d4;
+
+        }
+
+
+        body.light {
+
+            --bg: #eef2ff;
+
+            --bg-secondary: #f8fafc;
+
+            --card: rgba(255, 255, 255, 0.82);
+
+            --card-hover: #ffffff;
+
+            --border: rgba(15, 23, 42, 0.1);
+
+            --text: #0f172a;
+
+            --muted: #64748b;
+
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                Inter,
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color: var(--text);
+
+            background:
+
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(99, 102, 241, 0.20),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 90% 20%,
+                    rgba(139, 92, 246, 0.18),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 50% 100%,
+                    rgba(6, 182, 212, 0.10),
+                    transparent 30%
+                ),
+
+                var(--bg);
+
+            overflow-x: hidden;
+
+            transition:
+                background 0.4s ease,
+                color 0.4s ease;
+        }
+
+        .orb {
+
+            position: fixed;
+
+            border-radius: 50%;
+
+            filter: blur(80px);
+
+            pointer-events: none;
+
+            z-index: -1;
+
+            opacity: 0.35;
+
+        }
+
+
+        .orb-one {
+
+            width: 250px;
+            height: 250px;
+
+            background: #6366f1;
+
+            top: -80px;
+            left: -80px;
+
+        }
+
+
+        .orb-two {
+
+            width: 300px;
+            height: 300px;
+
+            background: #8b5cf6;
+
+            right: -120px;
+            top: 40%;
+
+        }
+
+
+        .orb-three {
+
+            width: 220px;
+            height: 220px;
+
+            background: #06b6d4;
+
+            left: 30%;
+            bottom: -100px;
+
+        }
+
+
+        /*
+           NAVBAR
+           */
+
+        .navbar {
+
+            width: 100%;
+
+            padding:
+                18px
+                6%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            border-bottom:
+                1px solid
+                var(--border);
+
+            background:
+                rgba(7, 11, 23, 0.55);
+
+            backdrop-filter:
+                blur(18px);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+
+        }
+
+
+        body.light .navbar {
+
+            background:
+                rgba(255, 255, 255, 0.65);
+
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            font-size: 20px;
+
+            font-weight: 800;
+
+            letter-spacing: -0.5px;
+
+        }
+
+
+        .brand-icon {
+
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--purple)
+                );
+
+            box-shadow:
+                0 8px 25px
+                rgba(99, 102, 241, 0.35);
+
         }
 
-        h1 {
-            color: #333;
+
+        .brand-text span {
+
+            color: var(--primary-light);
+
         }
 
-        h3 {
-            color: #444;
-            margin-top: 30px;
+
+        /*
+           THEME BUTTON
+        */
+
+        .theme-toggle {
+
+            width: 44px;
+            height: 44px;
+
+            border-radius: 12px;
+
+            border:
+                1px solid
+                var(--border);
+
+            background:
+                var(--card);
+
+            color:
+                var(--text);
+
+            cursor: pointer;
+
+            font-size: 19px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            transition:
+                0.3s ease;
+
         }
+
+
+        .theme-toggle:hover {
+
+            transform:
+                translateY(-2px)
+                rotate(10deg);
+
+            border-color:
+                var(--primary);
+
+        }
+
+
+        /*
+           MAIN
+         */
+
+        main {
+
+            width: 92%;
+
+            max-width: 1100px;
+
+            margin:
+                auto;
+
+            padding:
+                70px
+                0;
+
+        }
+
+
+        /*
+           HERO
+       */
+
+        .hero {
+
+            text-align: center;
+
+            margin-bottom: 60px;
+
+        }
+
+
+        .badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding:
+                8px
+                14px;
+
+            border-radius: 50px;
+
+            background:
+                rgba(99, 102, 241, 0.12);
+
+            border:
+                1px solid
+                rgba(99, 102, 241, 0.25);
+
+            color:
+                var(--primary-light);
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            margin-bottom: 22px;
+
+        }
+
+
+        .hero h1 {
+
+            font-size:
+                clamp(38px, 6vw, 68px);
+
+            line-height: 1.05;
+
+            letter-spacing:
+                -3px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .gradient-text {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #818cf8,
+                    #a78bfa,
+                    #22d3ee
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color:
+                transparent;
+
+        }
+
+
+        .hero p {
+
+            max-width: 650px;
+
+            margin:
+                auto;
+
+            color:
+                var(--muted);
+
+            font-size:
+                17px;
+
+            line-height:
+                1.7;
+
+        }
+
+
+        /*
+           MAIN CARD
+           */
+
+        .main-card {
+
+            background:
+                var(--card);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                28px;
+
+            padding:
+                35px;
+
+            backdrop-filter:
+                blur(20px);
+
+            box-shadow:
+                0 30px 80px
+                rgba(0, 0, 0, 0.25);
+
+        }
+
+
+        /*
+           ROLE SECTION
+           */
+
+        .role-section {
+
+            padding:
+                30px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                20px;
+
+            background:
+                rgba(255,255,255,0.025);
+
+            margin-bottom:
+                20px;
+
+            transition:
+                0.3s ease;
+
+        }
+
+
+        .role-section:hover {
+
+            background:
+                var(--card-hover);
+
+            transform:
+                translateY(-2px);
+
+        }
+
+
+        .section-header {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom:
+                25px;
+
+        }
+
+
+        .section-icon {
+
+            width: 50px;
+            height: 50px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 14px;
+
+            font-size: 23px;
+
+            background:
+                rgba(99, 102, 241, 0.12);
+
+        }
+
+
+        .section-header h3 {
+
+            font-size:
+                20px;
+
+            margin-bottom:
+                4px;
+
+        }
+
+
+        .section-header p {
+
+            color:
+                var(--muted);
+
+            font-size:
+                13px;
+
+        }
+
+
+        /*
+           BUTTON GRID
+        */
+
+        .actions {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(190px, 1fr)
+                );
+
+            gap:
+                12px;
+
+        }
+
+
+        /*
+           BUTTON */
 
         a {
-            display: inline-block;
-            margin: 8px;
-            padding: 10px 20px;
-            text-decoration: none;
-            background-color: #007bff;
-            color: white;
-            border-radius: 6px;
+
+            min-height:
+                52px;
+
+            padding:
+                14px
+                18px;
+
+            border-radius:
+                12px;
+
+            text-decoration:
+                none;
+
+            color:
+                white;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            gap:
+                8px;
+
+            font-size:
+                14px;
+
+            font-weight:
+                700;
+
+            border:
+                1px solid
+                transparent;
+
+            transition:
+                all 0.25s ease;
+
         }
+
 
         a:hover {
-            background-color: #0056b3;
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 12px 28px
+                rgba(0,0,0,0.25);
+
         }
 
-        .logout {
-            background-color: #dc3545;
+
+        /*  DEFAULT*/
+
+        a:not(
+            .student,
+            .admin,
+            .ai,
+            .logout,
+            .dashboard
+        ) {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--purple)
+                );
+
         }
 
-        .logout:hover {
-            background-color: #a71d2a;
+
+        /*  STUDENT
+        */
+
+        .student {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #059669,
+                    #10b981
+                );
+
         }
+
+
+        .student:hover {
+
+            box-shadow:
+                0 12px 30px
+                rgba(16,185,129,0.25);
+
+        }
+
+
+        /* ADMIN*/
 
         .admin {
-            background-color: #6f42c1;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7c3aed,
+                    #8b5cf6
+                );
+
         }
+
 
         .admin:hover {
-            background-color: #4e2a8e;
+
+            box-shadow:
+                0 12px 30px
+                rgba(139,92,246,0.30);
+
         }
+
+
+        /*  AI*/
 
         .ai {
-            background-color: #198754;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0891b2,
+                    #6366f1
+                );
+
         }
 
+
         .ai:hover {
-            background-color: #146c43;
+
+            box-shadow:
+                0 12px 30px
+                rgba(6,182,212,0.30);
+
         }
+
+
+        /* DASHBOARD*/
+
+        .dashboard {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0284c7,
+                    #0ea5e9
+                );
+
+        }
+
+
+        /*  LOGOUT*/
+
+        .logout {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #dc2626,
+                    #ef4444
+                );
+
+        }
+
+
+        /*  DIVIDER */
+
+        .divider {
+
+            height:
+                1px;
+
+            background:
+                var(--border);
+
+            margin:
+                25px 0;
+
+        }
+
+
+        /*  FOOTER */
+
+        footer {
+
+            text-align:
+                center;
+
+            margin-top:
+                45px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                13px;
+
+        }
+
+
+        footer span {
+
+            color:
+                var(--primary-light);
+
+        }
+
+
+        /*  ANIMATION*/
+
+        .fade-in {
+
+            animation:
+                fadeIn
+                0.7s
+                ease
+                both;
+
+        }
+
+
+        @keyframes fadeIn {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(20px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        /*MOBILE */
+
+        @media(max-width: 600px) {
+
+            .navbar {
+
+                padding:
+                    15px
+                    20px;
+
+            }
+
+
+            main {
+
+                padding:
+                    45px 0;
+
+            }
+
+
+            .hero {
+
+                margin-bottom:
+                    35px;
+
+            }
+
+
+            .hero h1 {
+
+                letter-spacing:
+                    -1.5px;
+
+            }
+
+
+            .main-card {
+
+                padding:
+                    15px;
+
+                border-radius:
+                    20px;
+
+            }
+
+
+            .role-section {
+
+                padding:
+                    20px;
+
+            }
+
+
+            .actions {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            a {
+
+                width:
+                    100%;
+
+            }
+
+        }
+
     </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- Background -->
 
-    <h1>Welcome to Quiz Application</h1>
+<div class="orb orb-one"></div>
+<div class="orb orb-two"></div>
+<div class="orb orb-three"></div>
 
+<!-- NAVBAR-->
 
-    <!-- ============================= -->
-    <!-- NOT LOGGED IN -->
-    <!-- ============================= -->
+<nav class="navbar">
+    <div class="brand">
+<div class="brand-icon">
+            📝
+        </div>
 
-    <div sec:authorize="!isAuthenticated()">
-
-        <h3>Please Login or Register</h3>
-
-        <a th:href="@{/login}">
-            Login
-        </a>
-
-        <a th:href="@{/register}">
-            Register
-        </a>
+        <div class="brand-text">
+            Quiz<span>Master</span>
+        </div>
 
     </div>
 
 
-    <!-- ============================= -->
-    <!-- STUDENT -->
-    <!-- ============================= -->
+    <button
+            class="theme-toggle"
+            id="themeToggle"
+            type="button"
+            title="Change Theme">
 
-    <div sec:authorize="hasRole('STUDENT')">
+        🌙
 
-        <h3>Welcome Student!</h3>
+    </button>
+    ```
 
-        <a th:href="@{/quiz}">
-            Start Quiz
-        </a>
+</nav>
 
-        <a th:href="@{/my-results}">
-            My Previous Results
-        </a>
+<!--MAIN -->
 
-        <br>
+<main>
 
-        <a class="logout" th:href="@{/logout}">
-            Logout
-        </a>
+
+    <!-- HERO -->
+
+    <section class="hero fade-in">
+
+        <div class="badge">
+
+            ✨ Smart Quiz Platform
+
+        </div>
+
+
+        <h1>
+
+            Test Your Knowledge.
+            <br>
+
+            <span class="gradient-text">
+            Learn Something New.
+        </span>
+
+        </h1>
+
+
+        <p>
+
+            Challenge yourself with interactive quizzes,
+            track your progress and use AI-powered tools
+            to improve your knowledge.
+
+        </p>
+
+    </section>
+
+
+    <!-- MAIN CARD -->
+
+    <div class="main-card fade-in">
+
+
+        <!--  NOT LOGGED IN -->
+
+        <div
+                sec:authorize="!isAuthenticated()"
+                class="role-section">
+
+            <div class="section-header">
+
+                <div class="section-icon">
+                    🔐
+                </div>
+
+                <div>
+
+                    <h3>
+                        Welcome!
+                    </h3>
+
+                    <p>
+                        Login or create an account to continue
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <a th:href="@{/login}">
+
+                    🔑 Login
+
+                </a>
+
+
+                <a th:href="@{/register}">
+
+                    📝 Create Account
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- STUDENT-->
+
+        <div
+                sec:authorize="hasRole('STUDENT')"
+                class="role-section">
+
+            <div class="section-header">
+
+                <div class="section-icon">
+                    🎓
+                </div>
+
+                <div>
+
+                    <h3>
+                        Welcome Student!
+                    </h3>
+
+                    <p>
+                        Ready to test your knowledge?
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <a
+                        class="student"
+                        th:href="@{/quiz}">
+
+                    ▶ Start Quiz
+
+                </a>
+
+
+                <a
+                        class="student"
+                        th:href="@{/my-results}">
+
+                    📊 My Results
+
+                </a>
+
+            </div>
+
+
+            <div class="divider"></div>
+
+
+            <div class="actions">
+
+                <a
+                        class="logout"
+                        th:href="@{/logout}">
+
+                    🚪 Logout
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!--   ADMIN-->
+
+        <div
+                sec:authorize="hasRole('ADMIN')"
+                class="role-section">
+
+            <div class="section-header">
+
+                <div class="section-icon">
+                    🛡️
+                </div>
+
+                <div>
+
+                    <h3>
+                        Welcome Admin!
+                    </h3>
+
+                    <p>
+                        Manage your quiz application
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ADMIN MANAGEMENT -->
+
+            <div class="actions">
+
+                <a
+                        class="admin"
+                        th:href="@{/admin/questions}">
+
+                    📚 Manage Questions
+
+                </a>
+
+
+                <a
+                        class="admin"
+                        th:href="@{/admin/add-question}">
+
+                    ➕ Add Question
+
+                </a>
+
+
+                <a
+                        class="admin"
+                        th:href="@{/admin/categories}">
+
+                    🗂️ Manage Categories
+
+                </a>
+
+            </div>
+
+
+            <div class="divider"></div>
+
+
+            <!-- AI -->
+
+            <div class="section-header">
+
+                <div class="section-icon">
+                    🤖
+                </div>
+
+                <div>
+
+                    <h3>
+                        AI Tools
+                    </h3>
+
+                    <p>
+                        Generate content using Gemini AI
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <a
+                        class="ai"
+                        th:href="@{/ai/test}">
+
+                    🤖 AI Assistant
+
+                </a>
+
+
+                <a
+                        class="ai"
+                        th:href="@{/ai/quiz}">
+
+                    ✨ Generate AI Quiz
+
+                </a>
+
+            </div>
+
+
+            <div class="divider"></div>
+
+
+            <!-- DASHBOARD -->
+
+            <div class="actions">
+
+                <a
+                        class="dashboard"
+                        th:href="@{/admin/dashboard}">
+
+                    📊 Open Admin Dashboard
+
+                </a>
+
+            </div>
+
+
+            <div
+                    class="actions"
+                    style="margin-top: 12px;">
+
+                <a
+                        class="logout"
+                        th:href="@{/logout}">
+
+                    🚪 Logout
+
+                </a>
+
+            </div>
+
+        </div>
 
     </div>
 
 
-    <!-- ============================= -->
-    <!-- ADMIN -->
-    <!-- ============================= -->
+    <!-- FOOTER -->
 
-    <div sec:authorize="hasRole('ADMIN')">
+    <footer>
 
-        <h3>Welcome Admin!</h3>
+        © 2026
+        <span>QuizMaster</span>
+        · Learn · Practice · Improve
 
-        <a class="admin" th:href="@{/admin/questions}">
-            Manage Questions
-        </a>
+    </footer>
+    ```
 
-        <a class="admin" th:href="@{/admin/add-question}">
-            Add Question
-        </a>
+</main>
 
-        <a class="admin" th:href="@{/admin/categories}">
-            Manage Categories
-        </a>
+<!--THEME SWITCHER-->
 
-        <br>
+<script>
 
-        <a class="ai" th:href="@{/ai/test}">
-            AI Test
-        </a>
+    const themeToggle =
+        document.getElementById("themeToggle");
 
-        <a class="ai" th:href="@{/ai/quiz}">
-            Generate AI Quiz
-        </a>
 
-        <br>
-        <a th:href="@{/admin/dashboard}">
-            Admin Dashboard
-        </a>
-        <br>
-        <a class="logout" th:href="@{/logout}">
-            Logout
-        </a>
+    const savedTheme =
+        localStorage.getItem("quiz-theme");
 
-    </div>
 
+    if (savedTheme === "light") {
+
+        document.body.classList.add("light");
+
+        themeToggle.textContent = "☀️";
+
+    }
+
+
+    themeToggle.addEventListener(
+        "click",
+        function () {
+
+            document.body.classList.toggle("light");
+
+
+            const isLight =
+                document.body.classList.contains("light");
+
+
+            if (isLight) {
+
+                themeToggle.textContent = "☀️";
+
+                localStorage.setItem(
+                    "quiz-theme",
+                    "light"
+                );
+
+            } else {
+
+                themeToggle.textContent = "🌙";
+
+                localStorage.setItem(
+                    "quiz-theme",
+                    "dark"
+                );
+
+            }
+
+        }
+    );
+</script>
 </div>
+
 <div th:replace="~{fragments/ai-button :: aiButton}"></div>
+
 </body>
 </html>

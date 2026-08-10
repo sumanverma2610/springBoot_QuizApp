@@ -1,30 +1,195 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <title>Register</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Register | Quiz Application</title>
+
+  <style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: Arial, sans-serif;
+        background: #0f172a;
+        color: #e2e8f0;
+    }
+
+    .register-container {
+        width: 90%;
+        max-width: 420px;
+        padding: 35px;
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 16px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .logo {
+        text-align: center;
+        font-size: 42px;
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        margin: 0;
+        text-align: center;
+        color: #f8fafc;
+        font-size: 28px;
+    }
+
+    .subtitle {
+        margin: 8px 0 28px;
+        text-align: center;
+        color: #94a3b8;
+        font-size: 14px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: #cbd5e1;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    input {
+        width: 100%;
+        padding: 13px 14px;
+        border: 1px solid #475569;
+        border-radius: 8px;
+        outline: none;
+        background: #0f172a;
+        color: #f8fafc;
+        font-size: 15px;
+    }
+
+    input:focus {
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+
+    input::placeholder {
+        color: #64748b;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 8px;
+        padding: 13px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+    }
+
+    .login-link {
+        display: block;
+        margin-top: 22px;
+        text-align: center;
+        color: #a5b4fc;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .login-link:hover {
+        color: #c4b5fd;
+    }
+
+    .footer {
+        margin-top: 25px;
+        text-align: center;
+        color: #64748b;
+        font-size: 12px;
+    }
+  </style>
 </head>
+
 <body>
 
-<h2>Register</h2>
+<div class="register-container">
 
-<form th:action="@{/register}" method="post">
+  <div class="logo">📝</div>
 
-  Username:
-  <input type="text" name="username"><br><br>
+  <h2>Create Account</h2>
 
-  Email:
-  <input type="email" name="email"><br><br>
+  <p class="subtitle">
+    Join the Quiz Application
+  </p>
 
-  Password:
-  <input type="password" name="password"><br><br>
+  <form th:action="@{/register}" method="post">
 
-  <button type="submit">Register</button>
+    <div class="form-group">
+      <label for="username">Username</label>
 
-</form>
+      <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Enter your username"
+              required>
+    </div>
 
-<br>
+    <div class="form-group">
+      <label for="email">Email</label>
 
-<a th:href="@{/login}">Already have an account?</a>
-<!--<div th:replace="~{fragments/ai-button :: aiButton}"></div>-->
+      <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              required>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+
+      <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Create a password"
+              required>
+    </div>
+
+    <button type="submit">
+      Create Account
+    </button>
+
+  </form>
+
+  <a class="login-link" th:href="@{/login}">
+    Already have an account? Login
+  </a>
+
+  <div class="footer">
+    Quiz Application
+  </div>
+
+</div>
+
 </body>
 </html>
+
