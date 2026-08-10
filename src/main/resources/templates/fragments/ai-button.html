@@ -4,26 +4,107 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>AI Button</title>
+    <title>AI Assistant</title>
 </head>
 
 <body>
 
-<!-- AI Floating Button Fragment -->
 <div th:fragment="aiButton">
 
-    <a th:href="@{/ai/test}"
-       class="ai-floating-button"
-       title="AI Test">
+    <!-- =========================
+         FLOATING AI BUTTON
+         ========================= -->
+
+    <button type="button"
+            class="ai-floating-button"
+            onclick="toggleAIChat()"
+            title="AI Assistant">
 
         🤖
 
-    </a>
+    </button>
+
+
+    <!-- =========================
+         AI CHAT POPUP
+         ========================= -->
+
+    <div id="aiChatBox"
+         class="ai-chat-box">
+
+        <!-- Header -->
+
+        <div class="ai-chat-header">
+
+            <div>
+                <strong>🤖 AI Assistant</strong>
+                <small>Ask me anything</small>
+            </div>
+
+            <button type="button"
+                    class="ai-close-btn"
+                    onclick="toggleAIChat()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <!-- Chat Messages -->
+
+        <div id="aiMessages"
+             class="ai-messages">
+
+            <div class="ai-message ai-bot-message">
+
+                👋 Hi! I'm your AI Assistant.
+
+                <br><br>
+
+                Ask me anything about Java,
+                Spring Boot, quizzes or programming.
+
+            </div>
+
+        </div>
+
+
+        <!-- Input Area -->
+
+        <form id="aiForm"
+              class="ai-input-area">
+
+            <textarea
+                    id="aiPrompt"
+                    name="prompt"
+                    placeholder="Ask something..."
+                    rows="2"
+                    required></textarea>
+
+            <button type="submit"
+                    class="ai-send-btn">
+
+                ➤
+
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- =========================
+         CSS
+         ========================= -->
 
     <style>
 
-        /* Floating AI Button */
+        /* Floating Button */
+
         .ai-floating-button {
+
             position: fixed;
 
             right: 25px;
@@ -31,6 +112,9 @@
 
             width: 60px;
             height: 60px;
+
+            border: none;
+            border-radius: 50%;
 
             background: linear-gradient(
                     135deg,
@@ -40,48 +124,448 @@
 
             color: white;
 
-            border-radius: 50%;
+            font-size: 28px;
+
+            cursor: pointer;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            text-decoration: none;
-
-            font-size: 28px;
-
             box-shadow:
-                    0 5px 15px rgba(0, 0, 0, 0.3);
+                    0 5px 18px rgba(0,0,0,0.3);
 
-            z-index: 9999;
+            z-index: 99999;
 
             transition:
                     transform 0.3s ease,
                     box-shadow 0.3s ease;
+
         }
 
 
-        /* Hover Effect */
         .ai-floating-button:hover {
 
-            transform: scale(1.12);
+            transform: scale(1.1);
 
             box-shadow:
-                    0 8px 22px rgba(0, 0, 0, 0.4);
+                    0 8px 25px rgba(0,0,0,0.4);
 
         }
 
 
-        /* Click Effect */
-        .ai-floating-button:active {
+        /* Chat Box */
 
-            transform: scale(0.95);
+        .ai-chat-box {
+
+            position: fixed;
+
+            right: 25px;
+            bottom: 95px;
+
+            width: 360px;
+            height: 500px;
+
+            background: white;
+
+            border-radius: 15px;
+
+            box-shadow:
+                    0 10px 35px rgba(0,0,0,0.25);
+
+            overflow: hidden;
+
+            display: none;
+
+            flex-direction: column;
+
+            z-index: 99998;
+
+        }
+
+
+        /* Header */
+
+        .ai-chat-header {
+
+            height: 70px;
+
+            padding: 15px;
+
+            background: linear-gradient(
+                    135deg,
+                    #6c5ce7,
+                    #4834d4
+            );
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+        }
+
+
+        .ai-chat-header strong {
+
+            display: block;
+
+            font-size: 17px;
+
+        }
+
+
+        .ai-chat-header small {
+
+            display: block;
+
+            margin-top: 4px;
+
+            opacity: 0.8;
+
+        }
+
+
+        /* Close Button */
+
+        .ai-close-btn {
+
+            background: transparent;
+
+            border: none;
+
+            color: white;
+
+            font-size: 28px;
+
+            cursor: pointer;
+
+            line-height: 1;
+
+        }
+
+
+        /* Messages */
+
+        .ai-messages {
+
+            flex: 1;
+
+            padding: 15px;
+
+            overflow-y: auto;
+
+            background: #f5f6fa;
+
+        }
+
+
+        .ai-message {
+
+            max-width: 85%;
+
+            padding: 11px 13px;
+
+            margin-bottom: 12px;
+
+            border-radius: 12px;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            white-space: pre-wrap;
+
+        }
+
+
+        .ai-bot-message {
+
+            background: white;
+
+            color: #333;
+
+            border: 1px solid #e5e5e5;
+
+            margin-right: auto;
+
+        }
+
+
+        .ai-user-message {
+
+            background: #6c5ce7;
+
+            color: white;
+
+            margin-left: auto;
+
+        }
+
+
+        /* Input */
+
+        .ai-input-area {
+
+            display: flex;
+
+            gap: 8px;
+
+            padding: 10px;
+
+            background: white;
+
+            border-top: 1px solid #ddd;
+
+        }
+
+
+        .ai-input-area textarea {
+
+            flex: 1;
+
+            resize: none;
+
+            border: 1px solid #ddd;
+
+            border-radius: 10px;
+
+            padding: 10px;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 14px;
+
+            outline: none;
+
+        }
+
+
+        .ai-input-area textarea:focus {
+
+            border-color: #6c5ce7;
+
+        }
+
+
+        /* Send Button */
+
+        .ai-send-btn {
+
+            width: 45px;
+            height: 45px;
+
+            align-self: flex-end;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: #6c5ce7;
+
+            color: white;
+
+            font-size: 20px;
+
+            cursor: pointer;
+
+        }
+
+
+        .ai-send-btn:hover {
+
+            background: #4834d4;
+
+        }
+
+
+        /* Loading */
+
+        .ai-loading {
+
+            opacity: 0.6;
+
+            font-style: italic;
+
+        }
+
+
+        /* Mobile */
+
+        @media (max-width: 500px) {
+
+            .ai-chat-box {
+
+                right: 10px;
+                bottom: 85px;
+
+                width: calc(100% - 20px);
+
+                height: 70vh;
+
+            }
+
+            .ai-floating-button {
+
+                right: 15px;
+                bottom: 15px;
+
+            }
 
         }
 
     </style>
 
+
+    <!-- =========================
+         JAVASCRIPT
+         ========================= -->
+
+    <script>
+
+        function toggleAIChat() {
+
+            const chatBox =
+                document.getElementById("aiChatBox");
+
+            if (chatBox.style.display === "flex") {
+
+                chatBox.style.display = "none";
+
+            } else {
+
+                chatBox.style.display = "flex";
+
+                document.getElementById("aiPrompt").focus();
+
+            }
+
+        }
+
+
+        document.getElementById("aiForm")
+            .addEventListener("submit", async function(event) {
+
+                event.preventDefault();
+
+                const promptInput =
+                    document.getElementById("aiPrompt");
+
+                const messages =
+                    document.getElementById("aiMessages");
+
+                const prompt =
+                    promptInput.value.trim();
+
+                if (!prompt) {
+                    return;
+                }
+
+
+                /* Show user message */
+
+                const userMessage =
+                    document.createElement("div");
+
+                userMessage.className =
+                    "ai-message ai-user-message";
+
+                userMessage.textContent =
+                    prompt;
+
+                messages.appendChild(userMessage);
+
+
+                /* Clear input */
+
+                promptInput.value = "";
+
+
+                /* Loading message */
+
+                const loadingMessage =
+                    document.createElement("div");
+
+                loadingMessage.className =
+                    "ai-message ai-bot-message ai-loading";
+
+                loadingMessage.textContent =
+                    "🤖 Thinking...";
+
+                messages.appendChild(loadingMessage);
+
+
+                messages.scrollTop =
+                    messages.scrollHeight;
+
+
+                try {
+
+                    const response =
+                        await fetch("/ai/generate", {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/x-www-form-urlencoded"
+                            },
+
+                            body:
+                                "prompt=" +
+                                encodeURIComponent(prompt)
+
+                        });
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "AI request failed"
+                        );
+
+                    }
+
+
+                    const result =
+                        await response.text();
+
+
+                    loadingMessage.classList.remove(
+                        "ai-loading"
+                    );
+
+                    loadingMessage.textContent =
+                        result;
+
+
+                } catch (error) {
+
+                    loadingMessage.classList.remove(
+                        "ai-loading"
+                    );
+
+                    loadingMessage.textContent =
+                        "❌ Sorry, something went wrong. Please try again.";
+
+                    console.error(error);
+
+                }
+
+
+                messages.scrollTop =
+                    messages.scrollHeight;
+
+            });
+
+    </script>
+
 </div>
 
 </body>
+
 </html>
+

@@ -59,7 +59,7 @@ public class WebSecurityConfig {
 
                         // AI ONLY FOR ADMIN
                         .requestMatchers("/ai/**")
-                        .hasRole("ADMIN")
+                        .hasAnyRole("ADMIN", "STUDENT")
 
                         // STUDENT ONLY
                         .requestMatchers(

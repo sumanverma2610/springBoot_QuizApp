@@ -46,18 +46,25 @@ public class AIController {
     // AI Test
     // ==========================================
 
+
     @PostMapping("/generate")
+    @ResponseBody
     public String generate(
-            @RequestParam String prompt,
-            Model model) {
+            @RequestParam String prompt) {
 
-        String response =
-                geminiService.generateContent(prompt);
+        try {
 
-        model.addAttribute("response", response);
+            return geminiService.generateContent(prompt);
 
-        return "ai-test";
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return "Sorry, I could not process your question. Please try again.";
+
+        }
     }
+
 
 
     // ==========================================

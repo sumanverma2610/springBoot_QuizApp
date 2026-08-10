@@ -1,100 +1,213 @@
+
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AI Test</title>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Assistant</title>
 
     <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
+            margin: 0;
             font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            padding: 40px;
+            background: #f4f6fb;
         }
 
-        .container {
-            max-width: 700px;
-            margin: auto;
+        .ai-container {
+            width: 90%;
+            max-width: 800px;
+            margin: 50px auto;
             background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.12);
+            overflow: hidden;
         }
 
-        h1 {
+        .ai-header {
+            background: linear-gradient(
+                    135deg,
+                    #6c5ce7,
+                    #4834d4
+            );
+
+            color: white;
+            padding: 25px;
             text-align: center;
+        }
+
+        .ai-header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .ai-header p {
+            margin: 8px 0 0;
+            opacity: 0.9;
+        }
+
+        .chat-area {
+            padding: 25px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
         }
 
         textarea {
             width: 100%;
-            height: 120px;
-            padding: 10px;
-            margin-top: 10px;
-            margin-bottom: 15px;
-            box-sizing: border-box;
+            min-height: 130px;
+
+            padding: 15px;
+
+            border: 1px solid #ddd;
+            border-radius: 10px;
+
+            font-size: 15px;
+
             resize: vertical;
+
+            outline: none;
         }
 
-        button {
+        textarea:focus {
+            border-color: #6c5ce7;
+        }
+
+        .generate-btn {
             width: 100%;
-            padding: 12px;
-            background: #007bff;
-            color: white;
+            margin-top: 15px;
+
+            padding: 13px;
+
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            border-radius: 8px;
+
+            background: #6c5ce7;
+            color: white;
+
             font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
         }
 
-        button:hover {
-            background: #0056b3;
+        .generate-btn:hover {
+            background: #4834d4;
         }
 
-        .response {
+        .response-box {
             margin-top: 25px;
+
             padding: 20px;
-            background: #f1f1f1;
-            border-radius: 5px;
-            white-space: pre-wrap;
+
+            background: #f5f5ff;
+
+            border-left: 5px solid #6c5ce7;
+
+            border-radius: 8px;
         }
+
+        .response-box h3 {
+            margin-top: 0;
+            color: #4834d4;
+        }
+
+        .response-text {
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+
+            margin: 20px 0;
+
+            text-decoration: none;
+            color: #6c5ce7;
+        }
+
     </style>
+
 </head>
 
 <body>
 
-<div class="container">
+<div class="ai-container">
 
-    <h1>Gemini AI Test</h1>
+    <div class="ai-header">
 
-    <form th:action="@{/ai/generate}" method="post">
+        <h1>🤖 AI Assistant</h1>
 
-        <label for="prompt">
-            Enter your prompt:
-        </label>
+        <p>
+            Ask Gemini anything related to your quiz or studies
+        </p>
 
-        <textarea
-                id="prompt"
-                name="prompt"
-                placeholder="Ask something to Gemini..."
-                required></textarea>
+    </div>
 
-        <button type="submit">
-            Generate
-        </button>
 
-    </form>
+    <div class="chat-area">
 
-    <div class="response" th:if="${response != null}">
+        <form th:action="@{/ai/generate}"
+              method="post">
 
-        <h3>AI Response:</h3>
+            <label for="prompt">
+                Ask your question
+            </label>
 
-        <p th:text="${response}"></p>
+            <textarea
+                    id="prompt"
+                    name="prompt"
+                    placeholder="Example: Explain Java inheritance in simple words..."
+                    required></textarea>
+
+            <button
+                    type="submit"
+                    class="generate-btn">
+
+                🤖 Ask AI
+
+            </button>
+
+        </form>
+
+
+        <!-- AI Response -->
+
+        <div class="response-box"
+             th:if="${response != null}">
+
+            <h3>🤖 AI Response</h3>
+
+            <div class="response-text"
+                 th:text="${response}">
+            </div>
+
+        </div>
 
     </div>
 
 </div>
+
+
+<a th:href="@{/}"
+   class="back-link">
+
+    ← Back to Home
+
+</a>
 
 </body>
 
