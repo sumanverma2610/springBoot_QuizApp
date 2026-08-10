@@ -1,96 +1,320 @@
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <title>Generate AI Quiz</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AI Quiz Generator</title>
+
+  <style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Arial, sans-serif;
+        background: #0f172a;
+        color: #e2e8f0;
+    }
+
+    .header {
+        padding: 28px 6%;
+        background: #111827;
+        border-bottom: 1px solid #334155;
+    }
+
+    .header-content {
+        max-width: 900px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .header h1 {
+        margin: 0;
+        color: #f8fafc;
+        font-size: 28px;
+    }
+
+    .header p {
+        margin: 8px 0 0;
+        color: #94a3b8;
+    }
+
+    .home {
+        padding: 10px 16px;
+        border-radius: 8px;
+        background: #334155;
+        color: #e2e8f0;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: 0.3s;
+    }
+
+    .home:hover {
+        background: #475569;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 700px;
+        margin: 45px auto;
+    }
+
+    .card {
+        padding: 32px;
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 16px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    }
+
+    .card h2 {
+        margin: 0 0 8px;
+        color: #f8fafc;
+        font-size: 22px;
+    }
+
+    .description {
+        margin: 0 0 28px;
+        color: #94a3b8;
+        line-height: 1.6;
+    }
+
+    .form-group {
+        margin-bottom: 22px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 9px;
+        color: #cbd5e1;
+        font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 13px 15px;
+        border: 1px solid #475569;
+        border-radius: 9px;
+        background: #0f172a;
+        color: #f8fafc;
+        font-size: 15px;
+        outline: none;
+        transition: 0.3s;
+    }
+
+    .form-group input::placeholder {
+        color: #64748b;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+        border-color: #8b5cf6;
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+    }
+
+    .form-group select option {
+        background: #1e293b;
+        color: #f8fafc;
+    }
+
+    .form-group small {
+        display: block;
+        margin-top: 7px;
+        color: #64748b;
+        font-size: 13px;
+    }
+
+    .generate-btn {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 9px;
+        background: linear-gradient(135deg, #7c3aed, #4f46e5);
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .generate-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+    }
+
+    .message {
+        margin-top: 22px;
+        padding: 15px;
+        border-radius: 9px;
+        background: #052e16;
+        border: 1px solid #166534;
+        color: #86efac;
+    }
+
+    .error {
+        margin-top: 22px;
+        padding: 15px;
+        border-radius: 9px;
+        background: #450a0a;
+        border: 1px solid #991b1b;
+        color: #fca5a5;
+    }
+
+    @media (max-width: 600px) {
+        .header-content {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .container {
+            width: 92%;
+            margin: 30px auto;
+        }
+
+        .card {
+            padding: 24px;
+        }
+    }
+  </style>
 </head>
 
 <body>
 
-<h2>Generate AI Quiz</h2>
+<header class="header">
 
+  <div class="header-content">
 
-<!-- Success message -->
-<div th:if="${message}">
-  <p th:text="${message}"></p>
-</div>
+    <div>
+      <h1>🤖 AI Quiz Generator</h1>
 
+      <p>
+        Generate quiz questions instantly using Gemini AI
+      </p>
+    </div>
 
-<!-- Error message -->
-<div th:if="${error}">
-  <p th:text="${error}"></p>
-</div>
+    <a class="home"
+       th:href="@{/}">
+      🏠 Home
+    </a>
 
+  </div>
 
-<form th:action="@{/ai/quiz/generate}" method="post">
+</header>
 
-  <!-- Category -->
+<main class="container">
 
-  <label for="category">
-    Category
-  </label>
+  <div class="card">
 
-  <select id="category"
-          name="categoryId"
-          required>
+    <h2>Generate Your Quiz</h2>
 
-    <option value="">
-      -- Select Category --
-    </option>
+    <p class="description">
+      Select a category, enter a topic, and choose how many
+      questions you want AI to generate.
+    </p>
 
-    <option
-            th:each="category : ${categories}"
-            th:value="${category.id}"
-            th:text="${category.name}">
-    </option>
+    <form th:action="@{/ai/quiz/generate}"
+          method="post">
 
-  </select>
+      <!-- Category -->
 
-  <br><br>
+      <div class="form-group">
 
+        <label for="category">
+          📚 Category
+        </label>
 
-  <!-- Topic -->
+        <select id="category"
+                name="categoryId"
+                required>
 
-  <label for="topic">
-    Quiz Topic
-  </label>
+          <option value="">
+            -- Select Category --
+          </option>
 
-  <input
-          type="text"
-          id="topic"
-          name="topic"
-          placeholder="Example: Java Collections"
-          required
-  >
+          <option th:each="category : ${categories}"
+                  th:value="${category.id}"
+                  th:text="${category.name}">
+          </option>
 
-  <br><br>
+        </select>
 
+      </div>
 
-  <!-- Number of Questions -->
+      <!-- Topic -->
 
-  <label for="numberOfQuestions">
-    Number of Questions
-  </label>
+      <div class="form-group">
 
-  <input
-          type="number"
-          id="numberOfQuestions"
-          name="numberOfQuestions"
-          min="1"
-          max="20"
-          value="5"
-          required
-  >
+        <label for="topic">
+          📖 Quiz Topic
+        </label>
 
-  <br><br>
+        <input type="text"
+               id="topic"
+               name="topic"
+               placeholder="Example: Java Collections"
+               required>
 
+      </div>
 
-  <button type="submit">
-    Generate Quiz
-  </button>
+      <!-- Questions -->
 
-</form>
-<div th:replace="~{fragments/ai-button :: aiButton}"></div>
+      <div class="form-group">
+
+        <label for="numberOfQuestions">
+          🔢 Number of Questions
+        </label>
+
+        <input type="number"
+               id="numberOfQuestions"
+               name="numberOfQuestions"
+               min="1"
+               max="20"
+               value="5"
+               required>
+
+        <small>
+          Choose between 1 and 20 questions.
+        </small>
+
+      </div>
+
+      <button type="submit"
+              class="generate-btn">
+
+        🤖 Generate Quiz
+
+      </button>
+
+    </form>
+
+    <!-- Success -->
+
+    <div class="message"
+         th:if="${message != null}"
+         th:text="${message}">
+    </div>
+
+    <!-- Error -->
+
+    <div class="error"
+         th:if="${error != null}"
+         th:text="${error}">
+    </div>
+
+  </div>
+
+</main>
+
 </body>
-
 </html>
+
