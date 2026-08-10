@@ -1,29 +1,38 @@
 <!DOCTYPE html>
-
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Quiz</title>
 
     <style>
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
+            margin: 0;
+            padding: 40px 20px;
             font-family: Arial, sans-serif;
-            margin: 40px;
-            background-color: #f5f5f5;
+            background: #0f172a;
+            color: #e2e8f0;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 850px;
             margin: auto;
         }
 
         h2 {
-            color: blue;
+            margin-bottom: 10px;
             text-align: center;
+            color: #a78bfa;
+            font-size: 32px;
         }
 
         .category {
@@ -32,70 +41,106 @@
         }
 
         .category h3 {
-            color: #333;
+            color: #cbd5e1;
+            font-weight: normal;
+        }
+
+        .category span {
+            color: #a78bfa;
+            font-weight: bold;
         }
 
         .question {
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 20px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 14px;
+            padding: 25px;
             margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
         }
 
         .question h3 {
-            margin-bottom: 20px;
-            color: #222;
+            margin: 0 0 20px;
+            color: #f8fafc;
+            line-height: 1.5;
         }
 
         .option {
             display: block;
-            padding: 10px;
-            margin-bottom: 5px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 9px;
             cursor: pointer;
-            border-radius: 5px;
+            color: #cbd5e1;
+            transition: 0.2s;
         }
 
         .option:hover {
-            background-color: #f0f0f0;
+            background: #273449;
+            border-color: #8b5cf6;
+            color: white;
         }
 
         .option input {
             margin-right: 10px;
+            accent-color: #8b5cf6;
         }
 
         button {
             display: block;
             margin: 30px auto;
-            padding: 12px 25px;
-            background-color: green;
+            padding: 13px 35px;
+            background: linear-gradient(135deg, #7c3aed, #4f46e5);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 9px;
             cursor: pointer;
             font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3);
+            transition: 0.2s;
         }
 
         button:hover {
-            background-color: darkgreen;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.45);
         }
 
         .no-question {
             text-align: center;
-            color: red;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
+            color: #fca5a5;
+            background: #1e293b;
+            border: 1px solid #7f1d1d;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        .no-question a {
+            color: #a78bfa;
+            text-decoration: none;
+        }
+
+        .no-question a:hover {
+            text-decoration: underline;
         }
 
         .back {
-            display: block;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 25px;
+        }
+
+        .back a {
+            color: #94a3b8;
+            text-decoration: none;
+        }
+
+        .back a:hover {
+            color: #a78bfa;
         }
 
     </style>
-    ```
 
 </head>
 
@@ -103,13 +148,7 @@
 
 <div class="container">
 
-    ```
-    <!-- Quiz Heading -->
-
-    <h2>Online Quiz</h2>
-
-
-    <!-- Selected Category -->
+    <h2>📝 Online Quiz</h2>
 
     <div class="category">
 
@@ -120,8 +159,6 @@
 
     </div>
 
-
-    <!-- If No Questions -->
 
     <div th:if="${questions.isEmpty()}"
          class="no-question">
@@ -137,40 +174,28 @@
     </div>
 
 
-    <!-- Quiz Form -->
-
     <form th:if="${!questions.isEmpty()}"
           th:action="@{/submitQuiz}"
           method="post">
-
-
-        <!-- Selected Category ID -->
 
         <input type="hidden"
                name="categoryId"
                th:value="${category.id}">
 
 
-        <!-- Questions -->
-
         <div th:each="question, questionStat : ${questions}"
              class="question">
 
-
-            <!-- Question Number + Question -->
-
             <h3>
 
-            <span th:text="${questionStat.index + 1}">
-            </span>.
+                <span th:text="${questionStat.index + 1}">
+                </span>.
 
                 <span th:text="${question.questionTitle}">
-            </span>
+                </span>
 
             </h3>
 
-
-            <!-- Option A -->
 
             <label class="option">
 
@@ -179,12 +204,10 @@
                        value="A">
 
                 <span th:text="${question.optionA}">
-            </span>
+                </span>
 
             </label>
 
-
-            <!-- Option B -->
 
             <label class="option">
 
@@ -193,12 +216,10 @@
                        value="B">
 
                 <span th:text="${question.optionB}">
-            </span>
+                </span>
 
             </label>
 
-
-            <!-- Option C -->
 
             <label class="option">
 
@@ -207,12 +228,10 @@
                        value="C">
 
                 <span th:text="${question.optionC}">
-            </span>
+                </span>
 
             </label>
 
-
-            <!-- Option D -->
 
             <label class="option">
 
@@ -221,32 +240,24 @@
                        value="D">
 
                 <span th:text="${question.optionD}">
-            </span>
+                </span>
 
             </label>
-
 
         </div>
 
 
-        <!-- Submit Quiz -->
-
         <button type="submit">
-
             Submit Quiz
-
         </button>
-
 
     </form>
 
 
-    <!-- Back to Category -->
-
     <div class="back">
 
         <a th:href="@{/quiz}">
-            Back to Categories
+            ← Back to Categories
         </a>
 
     </div>
@@ -254,5 +265,4 @@
 </div>
 
 </body>
-<div th:replace="~{fragments/ai-button :: aiButton}"></div>
 </html>
