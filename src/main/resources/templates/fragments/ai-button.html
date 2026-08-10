@@ -2,37 +2,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="UTF-8">
-    <title>AI Assistant</title>
-</head>
-
 <body>
-
-<!-- =====================================================
-     AI ASSISTANT FRAGMENT
-     ===================================================== -->
 
 <div th:fragment="aiButton">
 
-
-    <!-- =================================================
-         FLOATING AI BUTTON
-         ================================================= -->
+    <!-- ================= AI FLOATING BUTTON ================= -->
 
     <button type="button"
             class="ai-floating-button"
             onclick="toggleAIChat()"
             title="AI Assistant">
 
-        🤖
+        <span class="ai-robot">🤖</span>
+
+        <span class="ai-pulse"></span>
 
     </button>
 
 
-    <!-- =================================================
-         AI CHAT WINDOW
-         ================================================= -->
+    <!-- ================= AI CHAT WINDOW ================= -->
 
     <div id="aiChatWindow"
          class="ai-chat-window">
@@ -44,19 +32,20 @@
 
             <div class="ai-title">
 
-                <span class="ai-icon">
+                <div class="ai-avatar">
                     🤖
-                </span>
+                </div>
 
-                <div>
+                <div class="ai-title-text">
 
                     <strong>
                         AI Assistant
                     </strong>
 
-                    <small>
-                        Ask me anything
-                    </small>
+                    <span>
+                        <i></i>
+                        Online
+                    </span>
 
                 </div>
 
@@ -65,22 +54,17 @@
 
             <div class="ai-header-buttons">
 
-                <!-- Clear Chat -->
-
                 <button type="button"
-                        class="ai-clear-btn"
+                        class="ai-header-btn"
                         onclick="clearAIChat()"
-                        title="Clear Chat">
+                        title="Clear chat">
 
-                    🗑
+                    🗑️
 
                 </button>
 
-
-                <!-- Close -->
-
                 <button type="button"
-                        class="ai-close-btn"
+                        class="ai-header-btn close"
                         onclick="toggleAIChat()"
                         title="Close">
 
@@ -98,40 +82,46 @@
         <div id="aiMessages"
              class="ai-messages">
 
-
-            <!-- Initial AI message -->
-
             <div class="ai-message ai-bot-message">
 
-                👋 Hi!
+                <div class="message-avatar">
+                    🤖
+                </div>
 
-                <br><br>
+                <div class="message-content">
 
-                I'm your AI Assistant.
+                    <strong>Hello! 👋</strong>
 
-                <br><br>
+                    <p>
+                        I'm your AI Assistant. How can I help you today?
+                    </p>
 
-                You can ask me about:
+                    <div class="suggestions">
 
-                <br>
+                        <button type="button"
+                                onclick="askSuggestion('Explain Java')">
 
-                • Java
+                            ☕ Java
 
-                <br>
+                        </button>
 
-                • Spring Boot
+                        <button type="button"
+                                onclick="askSuggestion('Explain Spring Boot')">
 
-                <br>
+                            🌱 Spring Boot
 
-                • Programming
+                        </button>
 
-                <br>
+                        <button type="button"
+                                onclick="askSuggestion('Help me with programming')">
 
-                • Quiz questions
+                            💻 Programming
 
-                <br>
+                        </button>
 
-                • General study topics
+                    </div>
+
+                </div>
 
             </div>
 
@@ -143,18 +133,15 @@
         <form id="aiForm"
               class="ai-input-area">
 
-
             <textarea
                     id="aiPrompt"
                     name="prompt"
-                    placeholder="Ask something..."
+                    placeholder="Ask anything..."
                     rows="1"
                     required></textarea>
 
-
             <button type="submit"
-                    class="ai-send-button"
-                    title="Send">
+                    class="ai-send-button">
 
                 ➤
 
@@ -163,28 +150,37 @@
         </form>
 
 
+        <div class="ai-footer">
+
+            AI Assistant can make mistakes. Check important information.
+
+        </div>
+
     </div>
 
 
-    <!-- =================================================
-         CSS
-         ================================================= -->
+    <!-- ================= CSS ================= -->
 
     <style>
 
-        /* ===============================================
+        * {
+            box-sizing: border-box;
+        }
+
+
+        /* =================================================
            FLOATING BUTTON
-           =============================================== */
+           ================================================= */
 
         .ai-floating-button {
 
             position: fixed;
 
-            right: 25px;
-            bottom: 25px;
+            right: 28px;
+            bottom: 28px;
 
-            width: 60px;
-            height: 60px;
+            width: 62px;
+            height: 62px;
 
             border: none;
 
@@ -193,13 +189,11 @@
             background:
                 linear-gradient(
                     135deg,
-                    #6c5ce7,
-                    #4834d4
+                    #7c6cf0,
+                    #5141d8
                 );
 
             color: white;
-
-            font-size: 28px;
 
             display: flex;
 
@@ -208,59 +202,107 @@
 
             cursor: pointer;
 
+            font-size: 28px;
+
             box-shadow:
-                0 5px 18px
-                rgba(0, 0, 0, 0.3);
+                0 10px 30px
+                rgba(81,65,216,0.4);
 
             z-index: 9999;
 
             transition:
-                transform 0.3s ease,
-                box-shadow 0.3s ease;
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
 
         }
 
 
         .ai-floating-button:hover {
 
-            transform: scale(1.12);
+            transform:
+                translateY(-4px)
+                scale(1.05);
 
             box-shadow:
-                0 8px 25px
-                rgba(0, 0, 0, 0.4);
+                0 15px 35px
+                rgba(81,65,216,0.5);
 
         }
 
 
         .ai-floating-button:active {
 
-            transform: scale(0.95);
+            transform: scale(0.94);
 
         }
 
 
-        /* ===============================================
+        .ai-robot {
+
+            position: relative;
+
+            z-index: 2;
+
+        }
+
+
+        .ai-pulse {
+
+            position: absolute;
+
+            width: 100%;
+            height: 100%;
+
+            border-radius: 50%;
+
+            border:
+                2px solid
+                rgba(124,108,240,0.5);
+
+            animation:
+                aiPulse 2s infinite;
+
+        }
+
+
+        @keyframes aiPulse {
+
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            70% {
+                transform: scale(1.35);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1.35);
+                opacity: 0;
+            }
+
+        }
+
+
+        /* =================================================
            CHAT WINDOW
-           =============================================== */
+           ================================================= */
 
         .ai-chat-window {
 
             position: fixed;
 
-            right: 25px;
-            bottom: 100px;
+            right: 28px;
+            bottom: 105px;
 
-            width: 370px;
+            width: 390px;
 
-            height: 520px;
+            height: 570px;
 
             background: white;
 
-            border-radius: 16px;
-
-            box-shadow:
-                0 8px 35px
-                rgba(0, 0, 0, 0.25);
+            border-radius: 20px;
 
             overflow: hidden;
 
@@ -271,18 +313,53 @@
             z-index: 10000;
 
             border:
-                1px solid #e5e5e5;
+                1px solid #e7e7ef;
+
+            box-shadow:
+                0 20px 60px
+                rgba(0,0,0,0.2);
+
+            animation:
+                aiChatOpen 0.25s ease;
 
         }
 
 
-        /* ===============================================
+        @keyframes aiChatOpen {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(15px)
+                    scale(0.96);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+
+            }
+
+        }
+
+
+        /* =================================================
            HEADER
-           =============================================== */
+           ================================================= */
 
         .ai-chat-header {
 
-            height: 70px;
+            height: 75px;
+
+            padding:
+                12px 15px;
 
             background:
                 linear-gradient(
@@ -299,8 +376,6 @@
 
             justify-content: space-between;
 
-            padding: 12px 15px;
-
         }
 
 
@@ -310,45 +385,47 @@
 
             align-items: center;
 
-            gap: 10px;
+            gap: 11px;
 
         }
 
 
-        .ai-icon {
+        .ai-avatar {
 
-            font-size: 30px;
+            width: 45px;
+            height: 45px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.18);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 25px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.25);
 
         }
 
 
-        .ai-title strong {
+        .ai-title-text strong {
 
             display: block;
 
-            font-size: 17px;
+            font-size: 16px;
+
+            margin-bottom: 4px;
 
         }
 
 
-        .ai-title small {
-
-            display: block;
-
-            margin-top: 3px;
-
-            opacity: 0.85;
-
-            font-size: 12px;
-
-        }
-
-
-        /* ===============================================
-           HEADER BUTTONS
-           =============================================== */
-
-        .ai-header-buttons {
+        .ai-title-text span {
 
             display: flex;
 
@@ -356,205 +433,166 @@
 
             gap: 5px;
 
+            font-size: 11px;
+
+            opacity: 0.9;
+
         }
 
 
-        .ai-clear-btn,
-        .ai-close-btn {
+        .ai-title-text i {
 
-            background: transparent;
+            width: 7px;
+            height: 7px;
+
+            background: #55efc4;
+
+            border-radius: 50%;
+
+            display: inline-block;
+
+        }
+
+
+        /* =================================================
+           HEADER BUTTONS
+           ================================================= */
+
+        .ai-header-buttons {
+
+            display: flex;
+
+            gap: 4px;
+
+        }
+
+
+        .ai-header-btn {
+
+            width: 35px;
+            height: 35px;
 
             border: none;
+
+            border-radius: 9px;
+
+            background:
+                rgba(255,255,255,0.1);
 
             color: white;
 
             cursor: pointer;
 
-            border-radius: 5px;
+            font-size: 15px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            transition: 0.2s;
 
         }
 
 
-        .ai-clear-btn {
-
-            font-size: 16px;
-
-            padding: 7px;
-
-        }
-
-
-        .ai-close-btn {
-
-            font-size: 28px;
-
-            padding: 2px 7px;
-
-            line-height: 1;
-
-        }
-
-
-        .ai-clear-btn:hover,
-        .ai-close-btn:hover {
+        .ai-header-btn:hover {
 
             background:
-                rgba(255,255,255,0.15);
+                rgba(255,255,255,0.2);
 
         }
 
 
-        /* ===============================================
+        .ai-header-btn.close {
+
+            font-size: 25px;
+
+        }
+
+
+        /* =================================================
            MESSAGE AREA
-           =============================================== */
+           ================================================= */
 
         .ai-messages {
 
             flex: 1;
 
-            padding: 15px;
+            padding: 18px;
 
             overflow-y: auto;
 
-            background: #f7f7fb;
+            background:
+                #f7f7fb;
+
+            scroll-behavior: smooth;
 
         }
 
 
-        /* ===============================================
+        .ai-messages::-webkit-scrollbar {
+
+            width: 5px;
+
+        }
+
+
+        .ai-messages::-webkit-scrollbar-thumb {
+
+            background: #c9c7dc;
+
+            border-radius: 10px;
+
+        }
+
+
+        /* =================================================
            MESSAGE
-           =============================================== */
+           ================================================= */
 
         .ai-message {
 
-            max-width: 85%;
-
-            padding: 11px 14px;
-
-            margin-bottom: 12px;
-
-            border-radius: 12px;
-
-            font-size: 14px;
-
-            line-height: 1.5;
-
-            white-space: pre-wrap;
-
-            word-wrap: break-word;
-
-        }
-
-
-        /* AI MESSAGE */
-
-        .ai-bot-message {
-
-            background: white;
-
-            color: #333;
-
-            border:
-                1px solid #e5e5e5;
-
-            border-top-left-radius: 4px;
-
-        }
-
-
-        /* USER MESSAGE */
-
-        .ai-user-message {
-
-            background:
-                #6c5ce7;
-
-            color: white;
-
-            margin-left: auto;
-
-            border-top-right-radius: 4px;
-
-        }
-
-
-        /* LOADING */
-
-        .ai-loading {
-
-            opacity: 0.7;
-
-            font-style: italic;
-
-        }
-
-
-        /* ===============================================
-           INPUT AREA
-           =============================================== */
-
-        .ai-input-area {
-
             display: flex;
-
-            align-items: center;
 
             gap: 8px;
 
-            padding: 10px;
+            margin-bottom: 15px;
 
-            background: white;
-
-            border-top:
-                1px solid #e5e5e5;
+            animation:
+                messageAppear 0.25s ease;
 
         }
 
 
-        .ai-input-area textarea {
+        @keyframes messageAppear {
 
-            flex: 1;
+            from {
 
-            resize: none;
+                opacity: 0;
 
-            border:
-                1px solid #ddd;
+                transform:
+                    translateY(8px);
 
-            border-radius: 20px;
+            }
 
-            padding:
-                10px 14px;
+            to {
 
-            font-family: Arial, sans-serif;
+                opacity: 1;
 
-            font-size: 14px;
+                transform:
+                    translateY(0);
 
-            outline: none;
-
-            max-height: 100px;
+            }
 
         }
 
 
-        .ai-input-area textarea:focus {
+        .message-avatar {
 
-            border-color:
-                #6c5ce7;
+            width: 30px;
+            height: 30px;
 
-        }
-
-
-        /* ===============================================
-           SEND BUTTON
-           =============================================== */
-
-        .ai-send-button {
-
-            width: 42px;
-
-            height: 42px;
-
-            border: none;
+            flex-shrink: 0;
 
             border-radius: 50%;
 
@@ -565,46 +603,307 @@
                     #4834d4
                 );
 
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 16px;
+
+        }
+
+
+        .message-content {
+
+            max-width: 82%;
+
+            padding:
+                12px 14px;
+
+            border-radius: 14px;
+
+            background: white;
+
+            color: #333;
+
+            border:
+                1px solid #e6e6ed;
+
+            border-top-left-radius: 4px;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+        }
+
+
+        .message-content strong {
+
+            color: #4134a5;
+
+        }
+
+
+        .message-content p {
+
+            margin-top: 7px;
+
+            color: #555;
+
+        }
+
+
+        /* =================================================
+           USER MESSAGE
+           ================================================= */
+
+        .ai-user-message {
+
+            justify-content: flex-end;
+
+        }
+
+
+        .ai-user-message .message-content {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6c5ce7,
+                    #5141d8
+                );
+
             color: white;
 
-            font-size: 20px;
+            border: none;
+
+            border-radius: 14px;
+
+            border-top-right-radius: 4px;
+
+            max-width: 82%;
+
+        }
+
+
+        /* =================================================
+           SUGGESTIONS
+           ================================================= */
+
+        .suggestions {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 6px;
+
+            margin-top: 12px;
+
+        }
+
+
+        .suggestions button {
+
+            border:
+                1px solid #ddd9ff;
+
+            background:
+                #f5f3ff;
+
+            color:
+                #5141b4;
+
+            border-radius: 20px;
+
+            padding:
+                6px 10px;
+
+            font-size: 11px;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+        }
+
+
+        .suggestions button:hover {
+
+            background: #e9e5ff;
+
+        }
+
+
+        /* =================================================
+           INPUT
+           ================================================= */
+
+        .ai-input-area {
+
+            display: flex;
+
+            align-items: flex-end;
+
+            gap: 8px;
+
+            padding: 12px;
+
+            background: white;
+
+            border-top:
+                1px solid #e8e8ee;
+
+        }
+
+
+        .ai-input-area textarea {
+
+            flex: 1;
+
+            min-height: 42px;
+
+            max-height: 100px;
+
+            resize: none;
+
+            border:
+                1px solid #dedee7;
+
+            border-radius: 14px;
+
+            padding:
+                11px 13px;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            font-size: 13px;
+
+            outline: none;
+
+            transition: 0.2s;
+
+        }
+
+
+        .ai-input-area textarea:focus {
+
+            border-color:
+                #6c5ce7;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(108,92,231,0.1);
+
+        }
+
+
+        /* =================================================
+           SEND BUTTON
+           ================================================= */
+
+        .ai-send-button {
+
+            width: 42px;
+            height: 42px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6c5ce7,
+                    #4834d4
+                );
+
+            color: white;
+
+            font-size: 19px;
 
             cursor: pointer;
 
             display: flex;
 
             align-items: center;
-
             justify-content: center;
 
             flex-shrink: 0;
+
+            transition: 0.2s;
 
         }
 
 
         .ai-send-button:hover {
 
-            opacity: 0.9;
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 6px 15px
+                rgba(108,92,231,0.3);
 
         }
 
 
-        /* ===============================================
+        /* =================================================
+           FOOTER
+           ================================================= */
+
+        .ai-footer {
+
+            text-align: center;
+
+            font-size: 9px;
+
+            color: #aaa;
+
+            padding:
+                5px 10px 8px;
+
+            background: white;
+
+        }
+
+
+        /* =================================================
+           LOADING
+           ================================================= */
+
+        .ai-loading {
+
+            opacity: 0.65;
+
+        }
+
+
+        /* =================================================
            MOBILE
-           =============================================== */
+           ================================================= */
 
         @media (max-width: 600px) {
 
             .ai-chat-window {
 
                 right: 10px;
+                left: 10px;
 
                 bottom: 85px;
 
-                width:
-                    calc(100% - 20px);
+                width: auto;
 
-                height: 70vh;
+                height:
+                    calc(100vh - 120px);
+
+                max-height: 600px;
+
+                border-radius: 18px;
 
             }
 
@@ -615,6 +914,9 @@
 
                 bottom: 15px;
 
+                width: 56px;
+                height: 56px;
+
             }
 
         }
@@ -622,22 +924,14 @@
     </style>
 
 
-    <!-- =================================================
-         JAVASCRIPT
-         ================================================= -->
+    <!-- ================= JAVASCRIPT ================= -->
 
     <script>
-
-        /* ===============================================
-           OPEN / CLOSE CHAT
-           =============================================== */
 
         function toggleAIChat() {
 
             const chat =
-                document.getElementById(
-                    "aiChatWindow"
-                );
+                document.getElementById("aiChatWindow");
 
             if (chat.style.display === "flex") {
 
@@ -647,18 +941,22 @@
 
                 chat.style.display = "flex";
 
-                document
-                    .getElementById("aiPrompt")
-                    .focus();
+                setTimeout(() => {
+
+                    document
+                        .getElementById("aiPrompt")
+                        .focus();
+
+                }, 100);
 
             }
 
         }
 
 
-        /* ===============================================
+        /* =================================================
            SEND MESSAGE
-           =============================================== */
+           ================================================= */
 
         document
             .getElementById("aiForm")
@@ -668,69 +966,86 @@
 
                     event.preventDefault();
 
-
                     const promptInput =
-                        document.getElementById(
-                            "aiPrompt"
-                        );
+                        document.getElementById("aiPrompt");
 
                     const messages =
-                        document.getElementById(
-                            "aiMessages"
-                        );
-
+                        document.getElementById("aiMessages");
 
                     const prompt =
                         promptInput.value.trim();
 
-
                     if (!prompt) {
-
                         return;
-
                     }
 
 
-                    /* =================================
-                       USER MESSAGE
-                       ================================= */
+                    /* USER MESSAGE */
 
                     const userMessage =
                         document.createElement("div");
-
 
                     userMessage.className =
                         "ai-message ai-user-message";
 
 
-                    userMessage.textContent =
+                    const userContent =
+                        document.createElement("div");
+
+                    userContent.className =
+                        "message-content";
+
+                    userContent.textContent =
                         prompt;
 
+                    userMessage.appendChild(
+                        userContent
+                    );
 
                     messages.appendChild(
                         userMessage
                     );
 
 
-                    /* Clear input */
-
                     promptInput.value = "";
 
 
-                    /* =================================
-                       LOADING MESSAGE
-                       ================================= */
+                    /* LOADING */
 
                     const loadingMessage =
                         document.createElement("div");
-
 
                     loadingMessage.className =
                         "ai-message ai-bot-message ai-loading";
 
 
-                    loadingMessage.textContent =
+                    const loadingAvatar =
+                        document.createElement("div");
+
+                    loadingAvatar.className =
+                        "message-avatar";
+
+                    loadingAvatar.textContent =
+                        "🤖";
+
+
+                    const loadingContent =
+                        document.createElement("div");
+
+                    loadingContent.className =
+                        "message-content";
+
+                    loadingContent.textContent =
                         "🤖 Thinking...";
+
+
+                    loadingMessage.appendChild(
+                        loadingAvatar
+                    );
+
+                    loadingMessage.appendChild(
+                        loadingContent
+                    );
 
 
                     messages.appendChild(
@@ -743,11 +1058,6 @@
 
 
                     try {
-
-
-                        /* =============================
-                           SEND TO SPRING BOOT
-                           ============================= */
 
                         const response =
                             await fetch(
@@ -773,8 +1083,6 @@
                             );
 
 
-                        /* Check response */
-
                         if (!response.ok) {
 
                             throw new Error(
@@ -784,13 +1092,9 @@
                         }
 
 
-                        /* Get AI response */
-
                         const result =
                             await response.text();
 
-
-                        /* Replace loading */
 
                         loadingMessage.classList
                             .remove(
@@ -798,15 +1102,13 @@
                             );
 
 
-                        loadingMessage.textContent =
+                        loadingContent.textContent =
                             result;
 
 
                     } catch (error) {
 
-
                         console.error(error);
-
 
                         loadingMessage.classList
                             .remove(
@@ -814,7 +1116,7 @@
                             );
 
 
-                        loadingMessage.textContent =
+                        loadingContent.textContent =
                             "❌ Sorry, something went wrong. Please try again.";
 
                     }
@@ -827,9 +1129,9 @@
             );
 
 
-        /* ===============================================
+        /* =================================================
            ENTER TO SEND
-           =============================================== */
+           ================================================= */
 
         document
             .getElementById("aiPrompt")
@@ -837,14 +1139,12 @@
                 "keydown",
                 function(event) {
 
-
                     if (
                         event.key === "Enter" &&
                         !event.shiftKey
                     ) {
 
                         event.preventDefault();
-
 
                         document
                             .getElementById("aiForm")
@@ -858,51 +1158,73 @@
             );
 
 
-        /* ===============================================
+        /* =================================================
+           SUGGESTION BUTTON
+           ================================================= */
+
+        function askSuggestion(text) {
+
+            const input =
+                document.getElementById("aiPrompt");
+
+            input.value = text;
+
+            document
+                .getElementById("aiForm")
+                .dispatchEvent(
+                    new Event("submit")
+                );
+
+        }
+
+
+        /* =================================================
            CLEAR CHAT
-           =============================================== */
+           ================================================= */
 
         function clearAIChat() {
 
             const messages =
-                document.getElementById(
-                    "aiMessages"
-                );
+                document.getElementById("aiMessages");
 
 
             messages.innerHTML = `
 
                 <div class="ai-message ai-bot-message">
 
-                    👋 Hi!
+                    <div class="message-avatar">
+                        🤖
+                    </div>
 
-                    <br><br>
+                    <div class="message-content">
 
-                    I'm your AI Assistant.
+                        <strong>Hello again! 👋</strong>
 
-                    <br><br>
+                        <p>
+                            Chat cleared. What would you
+                            like to learn?
+                        </p>
 
-                    You can ask me about:
+                        <div class="suggestions">
 
-                    <br>
+                            <button type="button"
+                                    onclick="askSuggestion('Explain Java')">
+                                ☕ Java
+                            </button>
 
-                    • Java
+                            <button type="button"
+                                    onclick="askSuggestion('Explain Spring Boot')">
+                                🌱 Spring Boot
+                            </button>
 
-                    <br>
+                            <button type="button"
+                                    onclick="askSuggestion('Help me with programming')">
+                                💻 Programming
+                            </button>
 
-                    • Spring Boot
+                        </div>
 
-                    <br>
-
-                    • Programming
-
-                    <br>
-
-                    • Quiz questions
-
-                    <br>
-
-                    • General study topics
+                    </div>
 
                 </div>
 
@@ -912,9 +1234,7 @@
 
     </script>
 
-
 </div>
 
 </body>
-
 </html>

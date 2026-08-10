@@ -18,138 +18,717 @@
         }
 
         body {
+
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f6fb;
+
+            min-height: 100vh;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #e9e5ff,
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #f7f8fc,
+                    #eef0f8
+                );
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 30px;
+
+            color: #25253a;
         }
+
+
+        /* =========================
+           MAIN CONTAINER
+           ========================= */
 
         .ai-container {
-            width: 90%;
-            max-width: 800px;
-            margin: 50px auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.12);
+
+            width: 100%;
+
+            max-width: 850px;
+
+            background: rgba(255,255,255,0.96);
+
+            border-radius: 24px;
+
             overflow: hidden;
+
+            box-shadow:
+                0 20px 60px
+                rgba(40,35,90,0.15);
+
+            border:
+                1px solid rgba(255,255,255,0.8);
+
+            animation:
+                fadeUp 0.5s ease;
         }
 
+
+        @keyframes fadeUp {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(20px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        /* =========================
+           HEADER
+           ========================= */
+
         .ai-header {
-            background: linear-gradient(
+
+            position: relative;
+
+            padding: 35px 30px;
+
+            background:
+                linear-gradient(
                     135deg,
                     #6c5ce7,
                     #4834d4
-            );
+                );
 
             color: white;
-            padding: 25px;
+
             text-align: center;
+
+            overflow: hidden;
         }
+
+
+        .ai-header::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+
+            height: 180px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.08);
+
+            top: -80px;
+
+            left: -50px;
+        }
+
+
+        .ai-header::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+
+            height: 220px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.06);
+
+            bottom: -140px;
+
+            right: -50px;
+        }
+
+
+        .ai-icon {
+
+            position: relative;
+
+            width: 70px;
+
+            height: 70px;
+
+            margin: 0 auto 15px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.15);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 36px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.2);
+
+            box-shadow:
+                0 8px 25px
+                rgba(0,0,0,0.15);
+        }
+
 
         .ai-header h1 {
+
+            position: relative;
+
             margin: 0;
-            font-size: 28px;
+
+            font-size: 30px;
+
+            font-weight: 700;
         }
+
 
         .ai-header p {
-            margin: 8px 0 0;
+
+            position: relative;
+
+            margin: 9px 0 0;
+
             opacity: 0.9;
+
+            font-size: 14px;
         }
+
+
+        /* =========================
+           CHAT AREA
+           ========================= */
 
         .chat-area {
-            padding: 25px;
+
+            padding: 30px;
         }
+
+
+        /* =========================
+           WELCOME MESSAGE
+           ========================= */
+
+        .welcome-box {
+
+            display: flex;
+
+            gap: 12px;
+
+            align-items: flex-start;
+
+            padding: 16px;
+
+            margin-bottom: 25px;
+
+            background: #f7f5ff;
+
+            border:
+                1px solid #e6e1ff;
+
+            border-radius: 14px;
+        }
+
+
+        .welcome-icon {
+
+            width: 38px;
+
+            height: 38px;
+
+            flex-shrink: 0;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6c5ce7,
+                    #4834d4
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 19px;
+        }
+
+
+        .welcome-text strong {
+
+            display: block;
+
+            color: #4834d4;
+
+            margin-bottom: 4px;
+
+            font-size: 14px;
+        }
+
+
+        .welcome-text span {
+
+            color: #666;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           LABEL
+           ========================= */
 
         label {
-            font-weight: bold;
+
             display: block;
-            margin-bottom: 10px;
+
+            margin-bottom: 9px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #33334d;
         }
 
+
+        /* =========================
+           TEXTAREA
+           ========================= */
+
         textarea {
+
             width: 100%;
-            min-height: 130px;
 
-            padding: 15px;
+            min-height: 145px;
 
-            border: 1px solid #ddd;
-            border-radius: 10px;
+            padding: 16px;
 
-            font-size: 15px;
+            border:
+                1px solid #dddde8;
+
+            border-radius: 14px;
+
+            background: #fafafe;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            font-size: 14px;
+
+            line-height: 1.5;
 
             resize: vertical;
 
             outline: none;
+
+            transition:
+                border 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
         }
+
+
+        textarea::placeholder {
+
+            color: #9999aa;
+        }
+
 
         textarea:focus {
+
+            background: white;
+
             border-color: #6c5ce7;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(108,92,231,0.10);
         }
 
-        .generate-btn {
-            width: 100%;
-            margin-top: 15px;
 
-            padding: 13px;
+        /* =========================
+           QUICK QUESTIONS
+           ========================= */
 
-            border: none;
-            border-radius: 8px;
+        .quick-title {
 
-            background: #6c5ce7;
-            color: white;
+            margin-top: 20px;
 
-            font-size: 16px;
-            font-weight: bold;
+            margin-bottom: 10px;
+
+            font-size: 12px;
+
+            color: #888;
+        }
+
+
+        .quick-questions {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+        }
+
+
+        .quick-btn {
+
+            border:
+                1px solid #e0dcff;
+
+            background: #f7f5ff;
+
+            color: #5141b4;
+
+            padding: 8px 12px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
 
             cursor: pointer;
+
+            transition: 0.2s;
         }
+
+
+        .quick-btn:hover {
+
+            background: #ebe7ff;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        /* =========================
+           GENERATE BUTTON
+           ========================= */
+
+        .generate-btn {
+
+            width: 100%;
+
+            margin-top: 20px;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6c5ce7,
+                    #4834d4
+                );
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 20px
+                rgba(108,92,231,0.25);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
 
         .generate-btn:hover {
-            background: #4834d4;
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 12px 25px
+                rgba(108,92,231,0.35);
         }
 
+
+        .generate-btn:active {
+
+            transform: scale(0.98);
+        }
+
+
+        /* =========================
+           RESPONSE BOX
+           ========================= */
+
         .response-box {
-            margin-top: 25px;
+
+            margin-top: 30px;
 
             padding: 20px;
 
-            background: #f5f5ff;
+            background: #faf9ff;
 
-            border-left: 5px solid #6c5ce7;
+            border:
+                1px solid #e5e1ff;
 
-            border-radius: 8px;
+            border-left:
+                5px solid #6c5ce7;
+
+            border-radius: 14px;
+
+            animation:
+                responseAppear 0.4s ease;
         }
+
+
+        @keyframes responseAppear {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(10px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        .response-header {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .response-avatar {
+
+            width: 38px;
+
+            height: 38px;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6c5ce7,
+                    #4834d4
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 18px;
+        }
+
 
         .response-box h3 {
-            margin-top: 0;
+
+            margin: 0;
+
             color: #4834d4;
+
+            font-size: 16px;
         }
+
 
         .response-text {
+
+            color: #444;
+
             white-space: pre-wrap;
-            line-height: 1.6;
+
+            line-height: 1.7;
+
+            font-size: 14px;
         }
 
-        .back-link {
-            display: block;
-            text-align: center;
 
-            margin: 20px 0;
+        /* =========================
+           BACK LINK
+           ========================= */
+
+        .back-link {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            margin-top: 25px;
 
             text-decoration: none;
+
             color: #6c5ce7;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+
+        .back-link:hover {
+
+            color: #4834d4;
+
+            transform:
+                translateX(-3px);
+        }
+
+
+        /* =========================
+           FOOTER
+           ========================= */
+
+        .ai-footer {
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #aaa;
+
+            font-size: 10px;
+        }
+
+
+        /* =========================
+           MOBILE
+           ========================= */
+
+        @media (max-width: 600px) {
+
+            body {
+
+                padding: 15px;
+
+                align-items: flex-start;
+            }
+
+
+            .ai-container {
+
+                margin-top: 10px;
+
+                border-radius: 18px;
+            }
+
+
+            .ai-header {
+
+                padding: 28px 20px;
+            }
+
+
+            .ai-header h1 {
+
+                font-size: 25px;
+            }
+
+
+            .chat-area {
+
+                padding: 20px;
+            }
+
+
+            .quick-questions {
+
+                flex-direction: column;
+            }
+
+
+            .quick-btn {
+
+                width: 100%;
+
+                text-align: left;
+            }
+
         }
 
     </style>
 
 </head>
 
+
 <body>
+
 
 <div class="ai-container">
 
+
+    <!-- ================= HEADER ================= -->
+
     <div class="ai-header">
 
-        <h1>🤖 AI Assistant</h1>
+        <div class="ai-icon">
+            🤖
+        </div>
+
+        <h1>
+            AI Assistant
+        </h1>
 
         <p>
             Ask Gemini anything related to your quiz or studies
@@ -158,20 +737,103 @@
     </div>
 
 
+    <!-- ================= CHAT AREA ================= -->
+
     <div class="chat-area">
+
+
+        <!-- Welcome -->
+
+        <div class="welcome-box">
+
+            <div class="welcome-icon">
+                🤖
+            </div>
+
+            <div class="welcome-text">
+
+                <strong>
+                    Hello! How can I help?
+                </strong>
+
+                <span>
+                    Ask questions about Java, Spring Boot,
+                    programming, quiz topics, or your studies.
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= FORM ================= -->
 
         <form th:action="@{/ai/generate}"
               method="post">
 
+
             <label for="prompt">
                 Ask your question
             </label>
+
 
             <textarea
                     id="prompt"
                     name="prompt"
                     placeholder="Example: Explain Java inheritance in simple words..."
                     required></textarea>
+
+
+            <!-- Quick Questions -->
+
+            <div class="quick-title">
+                Quick questions
+            </div>
+
+
+            <div class="quick-questions">
+
+                <button
+                        type="button"
+                        class="quick-btn"
+                        onclick="setQuestion('Explain Java inheritance in simple words')">
+
+                    ☕ Java Inheritance
+
+                </button>
+
+
+                <button
+                        type="button"
+                        class="quick-btn"
+                        onclick="setQuestion('What is Spring Boot? Explain for a beginner')">
+
+                    🌱 Spring Boot
+
+                </button>
+
+
+                <button
+                        type="button"
+                        class="quick-btn"
+                        onclick="setQuestion('Give me some Java programming practice questions')">
+
+                    💻 Practice Questions
+
+                </button>
+
+
+                <button
+                        type="button"
+                        class="quick-btn"
+                        onclick="setQuestion('Explain object oriented programming')">
+
+                    📚 OOP
+
+                </button>
+
+            </div>
+
 
             <button
                     type="submit"
@@ -184,16 +846,46 @@
         </form>
 
 
-        <!-- AI Response -->
+        <!-- ================= AI RESPONSE ================= -->
 
         <div class="response-box"
              th:if="${response != null}">
 
-            <h3>🤖 AI Response</h3>
+
+            <div class="response-header">
+
+                <div class="response-avatar">
+                    🤖
+                </div>
+
+                <h3>
+                    AI Response
+                </h3>
+
+            </div>
+
 
             <div class="response-text"
                  th:text="${response}">
             </div>
+
+        </div>
+
+
+        <!-- ================= BACK ================= -->
+
+        <a th:href="@{/}"
+           class="back-link">
+
+            ← Back to Home
+
+        </a>
+
+
+        <div class="ai-footer">
+
+            AI Assistant may occasionally make mistakes.
+            Please verify important information.
 
         </div>
 
@@ -202,12 +894,18 @@
 </div>
 
 
-<a th:href="@{/}"
-   class="back-link">
+<script>
 
-    ← Back to Home
+    function setQuestion(question) {
 
-</a>
+        document.getElementById("prompt").value = question;
+
+        document.getElementById("prompt").focus();
+
+    }
+
+</script>
+
 
 </body>
 
