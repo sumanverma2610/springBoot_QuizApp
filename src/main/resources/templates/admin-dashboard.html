@@ -4,168 +4,395 @@
       xmlns:th="http://www.thymeleaf.org">
 
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
   <title>Admin Dashboard</title>
 
   <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f6f8;
-        margin: 0;
-        padding: 40px;
+
+    * {
+        box-sizing: border-box;
     }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+    }
+
+    /* ================= HEADER ================= */
+
+    .header {
+        background: linear-gradient(
+                135deg,
+                #6c5ce7,
+                #4834d4
+        );
+
+        color: white;
+
+        padding: 20px 40px;
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+    }
+
+    .header h1 {
+        margin: 0;
+        font-size: 26px;
+    }
+
+    .header p {
+        margin: 5px 0 0;
+        opacity: 0.9;
+    }
+
+    .home-btn {
+        background: white;
+        color: #4834d4;
+
+        text-decoration: none;
+
+        padding: 10px 18px;
+
+        border-radius: 7px;
+
+        font-weight: bold;
+    }
+
+    .home-btn:hover {
+        background: #f0f0f0;
+    }
+
+
+    /* ================= CONTAINER ================= */
 
     .container {
-        max-width: 1000px;
-        margin: auto;
+        max-width: 1100px;
+
+        margin: 40px auto;
+
+        padding: 0 20px;
     }
 
-    h1 {
-        text-align: center;
-        color: #333;
-        margin-bottom: 40px;
-    }
+
+    /* ================= CARDS ================= */
 
     .cards {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 25px;
+
+        grid-template-columns:
+                repeat(4, 1fr);
+
+        gap: 20px;
     }
 
     .card {
         background: white;
-        padding: 30px;
+
+        padding: 25px;
+
+        border-radius: 12px;
+
+        box-shadow:
+                0 4px 15px
+                rgba(0,0,0,0.08);
+
         text-align: center;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+        transition:
+                transform 0.2s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
     }
 
     .card h2 {
         margin: 0;
+
+        font-size: 17px;
+
         color: #555;
     }
 
     .number {
-        font-size: 40px;
-        font-weight: bold;
         margin-top: 15px;
-        color: #007bff;
+
+        font-size: 36px;
+
+        font-weight: bold;
+
+        color: #4834d4;
     }
 
-    .links {
-        text-align: center;
+
+    /* ================= QUICK ACTIONS ================= */
+
+    .actions {
         margin-top: 40px;
+
+        background: white;
+
+        padding: 30px;
+
+        border-radius: 12px;
+
+        box-shadow:
+                0 4px 15px
+                rgba(0,0,0,0.08);
     }
 
-    .links a {
+    .actions h2 {
+        margin-top: 0;
+
+        color: #333;
+    }
+
+    .action-buttons {
+        display: flex;
+
+        flex-wrap: wrap;
+
+        gap: 12px;
+    }
+
+    .action-buttons a {
         display: inline-block;
-        margin: 8px;
+
         padding: 12px 20px;
-        background-color: #007bff;
-        color: white;
+
+        border-radius: 7px;
+
         text-decoration: none;
-        border-radius: 6px;
+
+        background: #6c5ce7;
+
+        color: white;
+
+        font-weight: bold;
     }
 
-    .links a:hover {
-        background-color: #0056b3;
+    .action-buttons a:hover {
+        background: #4834d4;
     }
 
-    .logout {
-        background-color: #dc3545 !important;
+    .action-buttons .logout {
+        background: #dc3545;
     }
+
+    .action-buttons .logout:hover {
+        background: #a71d2a;
+    }
+
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 900px) {
+
+        .cards {
+            grid-template-columns:
+                    repeat(2, 1fr);
+        }
+
+    }
+
+    @media (max-width: 600px) {
+
+        .cards {
+            grid-template-columns: 1fr;
+        }
+
+        .header {
+            padding: 20px;
+
+            flex-direction: column;
+
+            gap: 15px;
+
+            text-align: center;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .action-buttons a {
+            text-align: center;
+        }
+
+    }
+
   </style>
+
 </head>
+
 
 <body>
 
+
+<!-- ================= HEADER ================= -->
+
+<div class="header">
+
+  <div>
+
+    <h1>Admin Dashboard</h1>
+
+    <p>
+      Quiz Application Administration
+    </p>
+
+  </div>
+
+  <a class="home-btn"
+     th:href="@{/}">
+    🏠 Home
+  </a>
+
+</div>
+
+
+<!-- ================= MAIN ================= -->
+
 <div class="container">
 
-  <h1>Admin Dashboard</h1>
+
+  <!-- ================= STATISTICS ================= -->
 
   <div class="cards">
 
+
     <!-- Total Students -->
+
     <div class="card">
-      <h2>Total Students</h2>
+
+      <h2>
+        👨‍🎓 Total Students
+      </h2>
 
       <div class="number"
            th:text="${totalStudents}">
         0
       </div>
+
     </div>
 
 
     <!-- Total Questions -->
+
     <div class="card">
-      <h2>Total Questions</h2>
+
+      <h2>
+        ❓ Total Questions
+      </h2>
 
       <div class="number"
            th:text="${totalQuestions}">
         0
       </div>
+
     </div>
 
 
     <!-- Total Categories -->
+
     <div class="card">
-      <h2>Total Categories</h2>
+
+      <h2>
+        📚 Total Categories
+      </h2>
 
       <div class="number"
            th:text="${totalCategories}">
         0
       </div>
+
     </div>
 
 
     <!-- Total Attempts -->
+
     <div class="card">
-      <h2>Total Quiz Attempts</h2>
+
+      <h2>
+        📝 Quiz Attempts
+      </h2>
 
       <div class="number"
            th:text="${totalAttempts}">
         0
       </div>
+
+    </div>
+
+
+  </div>
+
+
+  <!-- ================= QUICK ACTIONS ================= -->
+
+  <div class="actions">
+
+    <h2>
+      Quick Actions
+    </h2>
+
+    <div class="action-buttons">
+
+
+      <a th:href="@{/admin/questions}">
+        📋 Manage Questions
+      </a>
+
+
+      <a th:href="@{/admin/add-question}">
+        ➕ Add Question
+      </a>
+
+
+      <a th:href="@{/admin/categories}">
+        📚 Manage Categories
+      </a>
+
+
+      <a th:href="@{/ai/quiz}">
+        🤖 Generate AI Quiz
+      </a>
+
+
+      <a th:href="@{/ai/test}">
+        🧠 AI Assistant
+      </a>
+
+
+      <a class="logout"
+         th:href="@{/logout}">
+        🚪 Logout
+      </a>
+
+
     </div>
 
   </div>
 
 
-  <!-- Admin Links -->
-
-  <div class="links">
-
-    <a th:href="@{/admin/questions}">
-      Manage Questions
-    </a>
-
-    <a th:href="@{/admin/add-question}">
-      Add Question
-    </a>
-
-    <a th:href="@{/admin/categories}">
-      Manage Categories
-    </a>
-
-    <a th:href="@{/}">
-      Home
-    </a>
-
-    <a class="logout"
-       th:href="@{/logout}">
-      Logout
-    </a>
-
-  </div>
-
 </div>
-<!-- your existing quiz HTML -->
 
-<div th:replace="~{fragments/ai-button :: aiButton}"></div>
+
+<!-- ================= AI FLOATING BUTTON ================= -->
+
+<div th:replace="~{fragments/ai-button :: aiButton}">
+</div>
+
 
 </body>
+
 </html>
-
-

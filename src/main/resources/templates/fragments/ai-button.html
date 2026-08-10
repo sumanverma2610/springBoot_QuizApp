@@ -9,11 +9,16 @@
 
 <body>
 
+<!-- =====================================================
+     AI ASSISTANT FRAGMENT
+     ===================================================== -->
+
 <div th:fragment="aiButton">
 
-    <!-- =========================
+
+    <!-- =================================================
          FLOATING AI BUTTON
-         ========================= -->
+         ================================================= -->
 
     <button type="button"
             class="ai-floating-button"
@@ -25,66 +30,131 @@
     </button>
 
 
-    <!-- =========================
-         AI CHAT POPUP
-         ========================= -->
+    <!-- =================================================
+         AI CHAT WINDOW
+         ================================================= -->
 
-    <div id="aiChatBox"
-         class="ai-chat-box">
+    <div id="aiChatWindow"
+         class="ai-chat-window">
 
-        <!-- Header -->
+
+        <!-- ================= HEADER ================= -->
 
         <div class="ai-chat-header">
 
-            <div>
-                <strong>🤖 AI Assistant</strong>
-                <small>Ask me anything</small>
+            <div class="ai-title">
+
+                <span class="ai-icon">
+                    🤖
+                </span>
+
+                <div>
+
+                    <strong>
+                        AI Assistant
+                    </strong>
+
+                    <small>
+                        Ask me anything
+                    </small>
+
+                </div>
+
             </div>
 
-            <button type="button"
-                    class="ai-close-btn"
-                    onclick="toggleAIChat()">
 
-                ×
+            <div class="ai-header-buttons">
 
-            </button>
+                <!-- Clear Chat -->
+
+                <button type="button"
+                        class="ai-clear-btn"
+                        onclick="clearAIChat()"
+                        title="Clear Chat">
+
+                    🗑
+
+                </button>
+
+
+                <!-- Close -->
+
+                <button type="button"
+                        class="ai-close-btn"
+                        onclick="toggleAIChat()"
+                        title="Close">
+
+                    ×
+
+                </button>
+
+            </div>
 
         </div>
 
 
-        <!-- Chat Messages -->
+        <!-- ================= MESSAGES ================= -->
 
         <div id="aiMessages"
              class="ai-messages">
 
+
+            <!-- Initial AI message -->
+
             <div class="ai-message ai-bot-message">
 
-                👋 Hi! I'm your AI Assistant.
+                👋 Hi!
 
                 <br><br>
 
-                Ask me anything about Java,
-                Spring Boot, quizzes or programming.
+                I'm your AI Assistant.
+
+                <br><br>
+
+                You can ask me about:
+
+                <br>
+
+                • Java
+
+                <br>
+
+                • Spring Boot
+
+                <br>
+
+                • Programming
+
+                <br>
+
+                • Quiz questions
+
+                <br>
+
+                • General study topics
 
             </div>
 
         </div>
 
 
-        <!-- Input Area -->
+        <!-- ================= INPUT ================= -->
 
         <form id="aiForm"
               class="ai-input-area">
+
 
             <textarea
                     id="aiPrompt"
                     name="prompt"
                     placeholder="Ask something..."
-                    rows="2"
+                    rows="1"
                     required></textarea>
 
+
             <button type="submit"
-                    class="ai-send-btn">
+                    class="ai-send-button"
+                    title="Send">
 
                 ➤
 
@@ -92,16 +162,19 @@
 
         </form>
 
+
     </div>
 
 
-    <!-- =========================
+    <!-- =================================================
          CSS
-         ========================= -->
+         ================================================= -->
 
     <style>
 
-        /* Floating Button */
+        /* ===============================================
+           FLOATING BUTTON
+           =============================================== */
 
         .ai-floating-button {
 
@@ -114,64 +187,80 @@
             height: 60px;
 
             border: none;
+
             border-radius: 50%;
 
-            background: linear-gradient(
+            background:
+                linear-gradient(
                     135deg,
                     #6c5ce7,
                     #4834d4
-            );
+                );
 
             color: white;
 
             font-size: 28px;
 
-            cursor: pointer;
-
             display: flex;
+
             align-items: center;
             justify-content: center;
 
-            box-shadow:
-                    0 5px 18px rgba(0,0,0,0.3);
+            cursor: pointer;
 
-            z-index: 99999;
+            box-shadow:
+                0 5px 18px
+                rgba(0, 0, 0, 0.3);
+
+            z-index: 9999;
 
             transition:
-                    transform 0.3s ease,
-                    box-shadow 0.3s ease;
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
 
         }
 
 
         .ai-floating-button:hover {
 
-            transform: scale(1.1);
+            transform: scale(1.12);
 
             box-shadow:
-                    0 8px 25px rgba(0,0,0,0.4);
+                0 8px 25px
+                rgba(0, 0, 0, 0.4);
 
         }
 
 
-        /* Chat Box */
+        .ai-floating-button:active {
 
-        .ai-chat-box {
+            transform: scale(0.95);
+
+        }
+
+
+        /* ===============================================
+           CHAT WINDOW
+           =============================================== */
+
+        .ai-chat-window {
 
             position: fixed;
 
             right: 25px;
-            bottom: 95px;
+            bottom: 100px;
 
-            width: 360px;
-            height: 500px;
+            width: 370px;
+
+            height: 520px;
 
             background: white;
 
-            border-radius: 15px;
+            border-radius: 16px;
 
             box-shadow:
-                    0 10px 35px rgba(0,0,0,0.25);
+                0 8px 35px
+                rgba(0, 0, 0, 0.25);
 
             overflow: hidden;
 
@@ -179,24 +268,28 @@
 
             flex-direction: column;
 
-            z-index: 99998;
+            z-index: 10000;
+
+            border:
+                1px solid #e5e5e5;
 
         }
 
 
-        /* Header */
+        /* ===============================================
+           HEADER
+           =============================================== */
 
         .ai-chat-header {
 
             height: 70px;
 
-            padding: 15px;
-
-            background: linear-gradient(
+            background:
+                linear-gradient(
                     135deg,
                     #6c5ce7,
                     #4834d4
-            );
+                );
 
             color: white;
 
@@ -206,10 +299,30 @@
 
             justify-content: space-between;
 
+            padding: 12px 15px;
+
         }
 
 
-        .ai-chat-header strong {
+        .ai-title {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+        }
+
+
+        .ai-icon {
+
+            font-size: 30px;
+
+        }
+
+
+        .ai-title strong {
 
             display: block;
 
@@ -218,19 +331,35 @@
         }
 
 
-        .ai-chat-header small {
+        .ai-title small {
 
             display: block;
 
-            margin-top: 4px;
+            margin-top: 3px;
 
-            opacity: 0.8;
+            opacity: 0.85;
+
+            font-size: 12px;
 
         }
 
 
-        /* Close Button */
+        /* ===============================================
+           HEADER BUTTONS
+           =============================================== */
 
+        .ai-header-buttons {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+        }
+
+
+        .ai-clear-btn,
         .ai-close-btn {
 
             background: transparent;
@@ -239,16 +368,45 @@
 
             color: white;
 
+            cursor: pointer;
+
+            border-radius: 5px;
+
+        }
+
+
+        .ai-clear-btn {
+
+            font-size: 16px;
+
+            padding: 7px;
+
+        }
+
+
+        .ai-close-btn {
+
             font-size: 28px;
 
-            cursor: pointer;
+            padding: 2px 7px;
 
             line-height: 1;
 
         }
 
 
-        /* Messages */
+        .ai-clear-btn:hover,
+        .ai-close-btn:hover {
+
+            background:
+                rgba(255,255,255,0.15);
+
+        }
+
+
+        /* ===============================================
+           MESSAGE AREA
+           =============================================== */
 
         .ai-messages {
 
@@ -258,16 +416,20 @@
 
             overflow-y: auto;
 
-            background: #f5f6fa;
+            background: #f7f7fb;
 
         }
 
+
+        /* ===============================================
+           MESSAGE
+           =============================================== */
 
         .ai-message {
 
             max-width: 85%;
 
-            padding: 11px 13px;
+            padding: 11px 14px;
 
             margin-bottom: 12px;
 
@@ -279,8 +441,12 @@
 
             white-space: pre-wrap;
 
+            word-wrap: break-word;
+
         }
 
+
+        /* AI MESSAGE */
 
         .ai-bot-message {
 
@@ -288,29 +454,50 @@
 
             color: #333;
 
-            border: 1px solid #e5e5e5;
+            border:
+                1px solid #e5e5e5;
 
-            margin-right: auto;
+            border-top-left-radius: 4px;
 
         }
 
 
+        /* USER MESSAGE */
+
         .ai-user-message {
 
-            background: #6c5ce7;
+            background:
+                #6c5ce7;
 
             color: white;
 
             margin-left: auto;
 
+            border-top-right-radius: 4px;
+
         }
 
 
-        /* Input */
+        /* LOADING */
+
+        .ai-loading {
+
+            opacity: 0.7;
+
+            font-style: italic;
+
+        }
+
+
+        /* ===============================================
+           INPUT AREA
+           =============================================== */
 
         .ai-input-area {
 
             display: flex;
+
+            align-items: center;
 
             gap: 8px;
 
@@ -318,7 +505,8 @@
 
             background: white;
 
-            border-top: 1px solid #ddd;
+            border-top:
+                1px solid #e5e5e5;
 
         }
 
@@ -329,11 +517,13 @@
 
             resize: none;
 
-            border: 1px solid #ddd;
+            border:
+                1px solid #ddd;
 
-            border-radius: 10px;
+            border-radius: 20px;
 
-            padding: 10px;
+            padding:
+                10px 14px;
 
             font-family: Arial, sans-serif;
 
@@ -341,30 +531,39 @@
 
             outline: none;
 
+            max-height: 100px;
+
         }
 
 
         .ai-input-area textarea:focus {
 
-            border-color: #6c5ce7;
+            border-color:
+                #6c5ce7;
 
         }
 
 
-        /* Send Button */
+        /* ===============================================
+           SEND BUTTON
+           =============================================== */
 
-        .ai-send-btn {
+        .ai-send-button {
 
-            width: 45px;
-            height: 45px;
+            width: 42px;
 
-            align-self: flex-end;
+            height: 42px;
 
             border: none;
 
-            border-radius: 10px;
+            border-radius: 50%;
 
-            background: #6c5ce7;
+            background:
+                linear-gradient(
+                    135deg,
+                    #6c5ce7,
+                    #4834d4
+                );
 
             color: white;
 
@@ -372,45 +571,48 @@
 
             cursor: pointer;
 
-        }
+            display: flex;
 
+            align-items: center;
 
-        .ai-send-btn:hover {
+            justify-content: center;
 
-            background: #4834d4;
-
-        }
-
-
-        /* Loading */
-
-        .ai-loading {
-
-            opacity: 0.6;
-
-            font-style: italic;
+            flex-shrink: 0;
 
         }
 
 
-        /* Mobile */
+        .ai-send-button:hover {
 
-        @media (max-width: 500px) {
+            opacity: 0.9;
 
-            .ai-chat-box {
+        }
+
+
+        /* ===============================================
+           MOBILE
+           =============================================== */
+
+        @media (max-width: 600px) {
+
+            .ai-chat-window {
 
                 right: 10px;
+
                 bottom: 85px;
 
-                width: calc(100% - 20px);
+                width:
+                    calc(100% - 20px);
 
                 height: 70vh;
 
             }
 
+
             .ai-floating-button {
 
                 right: 15px;
+
                 bottom: 15px;
 
             }
@@ -420,152 +622,299 @@
     </style>
 
 
-    <!-- =========================
+    <!-- =================================================
          JAVASCRIPT
-         ========================= -->
+         ================================================= -->
 
     <script>
 
+        /* ===============================================
+           OPEN / CLOSE CHAT
+           =============================================== */
+
         function toggleAIChat() {
 
-            const chatBox =
-                document.getElementById("aiChatBox");
+            const chat =
+                document.getElementById(
+                    "aiChatWindow"
+                );
 
-            if (chatBox.style.display === "flex") {
+            if (chat.style.display === "flex") {
 
-                chatBox.style.display = "none";
+                chat.style.display = "none";
 
             } else {
 
-                chatBox.style.display = "flex";
+                chat.style.display = "flex";
 
-                document.getElementById("aiPrompt").focus();
+                document
+                    .getElementById("aiPrompt")
+                    .focus();
 
             }
 
         }
 
 
-        document.getElementById("aiForm")
-            .addEventListener("submit", async function(event) {
+        /* ===============================================
+           SEND MESSAGE
+           =============================================== */
 
-                event.preventDefault();
+        document
+            .getElementById("aiForm")
+            .addEventListener(
+                "submit",
+                async function(event) {
 
-                const promptInput =
-                    document.getElementById("aiPrompt");
-
-                const messages =
-                    document.getElementById("aiMessages");
-
-                const prompt =
-                    promptInput.value.trim();
-
-                if (!prompt) {
-                    return;
-                }
+                    event.preventDefault();
 
 
-                /* Show user message */
-
-                const userMessage =
-                    document.createElement("div");
-
-                userMessage.className =
-                    "ai-message ai-user-message";
-
-                userMessage.textContent =
-                    prompt;
-
-                messages.appendChild(userMessage);
-
-
-                /* Clear input */
-
-                promptInput.value = "";
-
-
-                /* Loading message */
-
-                const loadingMessage =
-                    document.createElement("div");
-
-                loadingMessage.className =
-                    "ai-message ai-bot-message ai-loading";
-
-                loadingMessage.textContent =
-                    "🤖 Thinking...";
-
-                messages.appendChild(loadingMessage);
-
-
-                messages.scrollTop =
-                    messages.scrollHeight;
-
-
-                try {
-
-                    const response =
-                        await fetch("/ai/generate", {
-
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/x-www-form-urlencoded"
-                            },
-
-                            body:
-                                "prompt=" +
-                                encodeURIComponent(prompt)
-
-                        });
-
-
-                    if (!response.ok) {
-
-                        throw new Error(
-                            "AI request failed"
+                    const promptInput =
+                        document.getElementById(
+                            "aiPrompt"
                         );
+
+                    const messages =
+                        document.getElementById(
+                            "aiMessages"
+                        );
+
+
+                    const prompt =
+                        promptInput.value.trim();
+
+
+                    if (!prompt) {
+
+                        return;
 
                     }
 
 
-                    const result =
-                        await response.text();
+                    /* =================================
+                       USER MESSAGE
+                       ================================= */
+
+                    const userMessage =
+                        document.createElement("div");
 
 
-                    loadingMessage.classList.remove(
-                        "ai-loading"
+                    userMessage.className =
+                        "ai-message ai-user-message";
+
+
+                    userMessage.textContent =
+                        prompt;
+
+
+                    messages.appendChild(
+                        userMessage
                     );
 
+
+                    /* Clear input */
+
+                    promptInput.value = "";
+
+
+                    /* =================================
+                       LOADING MESSAGE
+                       ================================= */
+
+                    const loadingMessage =
+                        document.createElement("div");
+
+
+                    loadingMessage.className =
+                        "ai-message ai-bot-message ai-loading";
+
+
                     loadingMessage.textContent =
-                        result;
+                        "🤖 Thinking...";
 
 
-                } catch (error) {
-
-                    loadingMessage.classList.remove(
-                        "ai-loading"
+                    messages.appendChild(
+                        loadingMessage
                     );
 
-                    loadingMessage.textContent =
-                        "❌ Sorry, something went wrong. Please try again.";
 
-                    console.error(error);
+                    messages.scrollTop =
+                        messages.scrollHeight;
+
+
+                    try {
+
+
+                        /* =============================
+                           SEND TO SPRING BOOT
+                           ============================= */
+
+                        const response =
+                            await fetch(
+                                "/ai/generate",
+                                {
+
+                                    method: "POST",
+
+                                    headers: {
+
+                                        "Content-Type":
+                                            "application/x-www-form-urlencoded"
+
+                                    },
+
+                                    body:
+                                        "prompt=" +
+                                        encodeURIComponent(
+                                            prompt
+                                        )
+
+                                }
+                            );
+
+
+                        /* Check response */
+
+                        if (!response.ok) {
+
+                            throw new Error(
+                                "Server error"
+                            );
+
+                        }
+
+
+                        /* Get AI response */
+
+                        const result =
+                            await response.text();
+
+
+                        /* Replace loading */
+
+                        loadingMessage.classList
+                            .remove(
+                                "ai-loading"
+                            );
+
+
+                        loadingMessage.textContent =
+                            result;
+
+
+                    } catch (error) {
+
+
+                        console.error(error);
+
+
+                        loadingMessage.classList
+                            .remove(
+                                "ai-loading"
+                            );
+
+
+                        loadingMessage.textContent =
+                            "❌ Sorry, something went wrong. Please try again.";
+
+                    }
+
+
+                    messages.scrollTop =
+                        messages.scrollHeight;
 
                 }
+            );
 
 
-                messages.scrollTop =
-                    messages.scrollHeight;
+        /* ===============================================
+           ENTER TO SEND
+           =============================================== */
 
-            });
+        document
+            .getElementById("aiPrompt")
+            .addEventListener(
+                "keydown",
+                function(event) {
+
+
+                    if (
+                        event.key === "Enter" &&
+                        !event.shiftKey
+                    ) {
+
+                        event.preventDefault();
+
+
+                        document
+                            .getElementById("aiForm")
+                            .dispatchEvent(
+                                new Event("submit")
+                            );
+
+                    }
+
+                }
+            );
+
+
+        /* ===============================================
+           CLEAR CHAT
+           =============================================== */
+
+        function clearAIChat() {
+
+            const messages =
+                document.getElementById(
+                    "aiMessages"
+                );
+
+
+            messages.innerHTML = `
+
+                <div class="ai-message ai-bot-message">
+
+                    👋 Hi!
+
+                    <br><br>
+
+                    I'm your AI Assistant.
+
+                    <br><br>
+
+                    You can ask me about:
+
+                    <br>
+
+                    • Java
+
+                    <br>
+
+                    • Spring Boot
+
+                    <br>
+
+                    • Programming
+
+                    <br>
+
+                    • Quiz questions
+
+                    <br>
+
+                    • General study topics
+
+                </div>
+
+            `;
+
+        }
 
     </script>
+
 
 </div>
 
 </body>
 
 </html>
-
