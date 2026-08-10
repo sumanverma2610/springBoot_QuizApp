@@ -1,22 +1,179 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
+
+  <meta charset="UTF-8">
+
   <title>Quiz Result</title>
+
+  <style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #0f172a;
+        color: #e5e7eb;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .result-container {
+        width: 90%;
+        max-width: 600px;
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 15px;
+        padding: 40px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    h2 {
+        margin-bottom: 30px;
+        color: #ffffff;
+        font-size: 32px;
+    }
+
+    .score {
+        background: #0f172a;
+        border: 1px solid #334155;
+        border-radius: 10px;
+        padding: 25px;
+        margin-bottom: 30px;
+    }
+
+    .score h3 {
+        margin: 0;
+        color: #cbd5e1;
+        font-size: 22px;
+    }
+
+    .score-value {
+        color: #60a5fa;
+        font-size: 32px;
+        font-weight: bold;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .btn {
+        display: block;
+        padding: 12px 20px;
+        border-radius: 7px;
+        text-decoration: none;
+        color: white;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+
+    .quiz-btn {
+        background: #2563eb;
+    }
+
+    .quiz-btn:hover {
+        background: #1d4ed8;
+    }
+
+    .history-btn {
+        background: #475569;
+    }
+
+    .history-btn:hover {
+        background: #64748b;
+    }
+
+    .home-btn {
+        background: #334155;
+    }
+
+    .home-btn:hover {
+        background: #475569;
+    }
+
+  </style>
+
 </head>
+
 <body>
 
-<h2>Quiz Result</h2>
+<div class="result-container">
 
-<h3>Your Score:
-  <span th:text="${score}"></span> /
-  <span th:text="${total}"></span>
-</h3>
+  <h2>Quiz Result</h2>
 
-<a th:href="@{/quiz}">Take Quiz Again</a>
-<br><br>
-<a th:href="@{/my-results}">History</a>
 
-<a th:href="@{/}">Home</a>
-<div th:replace="~{fragments/ai-button :: aiButton}"></div>
+  <!-- Score -->
+
+  <div class="score">
+
+    <h3>
+      Your Score
+    </h3>
+
+    <p class="score-value">
+
+            <span th:text="${score}">
+                8
+            </span>
+
+      /
+
+      <span th:text="${total}">
+                10
+            </span>
+
+    </p>
+
+  </div>
+
+
+  <!-- Buttons -->
+
+  <div class="buttons">
+
+    <a class="btn quiz-btn"
+       th:href="@{/quiz}">
+
+      Take Quiz Again
+
+    </a>
+
+
+    <a class="btn history-btn"
+       th:href="@{/my-results}">
+
+      View History
+
+    </a>
+
+
+    <a class="btn home-btn"
+       th:href="@{/}">
+
+      Home
+
+    </a>
+
+  </div>
+
+
+  <!-- AI Button -->
+
+  <div th:replace="~{fragments/ai-button :: aiButton}"></div>
+
+</div>
+
 </body>
+
 </html>
