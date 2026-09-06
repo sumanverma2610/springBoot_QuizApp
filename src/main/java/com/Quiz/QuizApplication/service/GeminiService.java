@@ -23,9 +23,13 @@ public class GeminiService {
     @Value("${gemini.model}")
     private String model;
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    public GeminiService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
 
     // ==========================================

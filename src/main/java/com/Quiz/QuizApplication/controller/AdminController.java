@@ -1,5 +1,6 @@
 package com.Quiz.QuizApplication.controller;
 
+import com.Quiz.QuizApplication.entity.Category;
 import com.Quiz.QuizApplication.entity.Question;
 import com.Quiz.QuizApplication.service.CategoryService;
 import com.Quiz.QuizApplication.service.QuestionService;
@@ -44,22 +45,20 @@ public class AdminController {
     }
 
     // Save Question
-    @PostMapping("/save")
+    // NOTE: path matches the form's th:action="@{/admin/add-question}" in
+    // add-question.html - it previously posted to "/save", which had no
+    // matching handler and returned a 405.
+    @PostMapping("/add-question")
     public String saveQuestion(
-            @ModelAttribute Question question) {
+            @ModelAttribute Question question,
+            @RequestParam Long categoryId) {
 
-        System.out.println("========== SAVE METHOD CALLED ==========");
-        System.out.println("Question: " + question.getQuestionTitle());
-        System.out.println("Option A: " + question.getOptionA());
-        System.out.println("Option B: " + question.getOptionB());
-        System.out.println("Correct Answer: " + question.getCorrectAnswer());
-
-        if (question.getCategory() != null) {
-            System.out.println(
-                    "Category: " +
-                            question.getCategory().getName()
-            );
-        }
+        // The form sends "categoryId" (a Long), but Question only exposes
+        // setCategory(Category) - Spring can't bind that field automatically,
+        // so we resolve it ourselves and attach it before saving.
+        Category category = categoryService.getCategoryById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+        question.setCategory(category);
 
         questionService.saveQuestion(question);
 

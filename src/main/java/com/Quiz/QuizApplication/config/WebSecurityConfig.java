@@ -64,6 +64,7 @@ public class WebSecurityConfig {
                         // STUDENT ONLY
                         .requestMatchers(
                                 "/quiz",
+                                "/quiz/start",
                                 "/submitQuiz",
                                 "/result",
                                 "/my-results"

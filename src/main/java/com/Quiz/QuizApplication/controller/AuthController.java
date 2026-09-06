@@ -20,7 +20,12 @@ public class AuthController {
 
         user.setRole("STUDENT");   // Default role
 
-        userService.saveUser(user);
+        try {
+            userService.saveUser(user);
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            // Username or email already exists (unique constraint on User)
+            return "redirect:/register?error=Username+or+email+already+in+use";
+        }
 
         return "redirect:/login";
     }
